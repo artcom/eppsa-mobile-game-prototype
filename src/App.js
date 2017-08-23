@@ -15,11 +15,13 @@ injectGlobal`
 `
 
 const Container = styled.div`
+  height: 100%;
 `
 
 const QrReaderComponent = styled(QrReader)`
-  display: flex;
-  justify-content: center;
+  background: red;
+  height: 100vw;
+  overflow: hidden;
 `
 
 export default class App extends React.Component {
@@ -35,7 +37,7 @@ export default class App extends React.Component {
           delay={ 100 }
           onError={ (error) => console.log(error) }
           onScan={ (result) => this.setState({ result }) }
-          style={ { height: "100vw" } } />
+          style={ { width: "100%" } } />
         { this.state.result && <div>{ this.state.result }</div> }
       </Container>
     )

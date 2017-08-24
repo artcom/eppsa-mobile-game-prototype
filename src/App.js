@@ -19,7 +19,6 @@ const Container = styled.div`
 `
 
 const QrReaderComponent = styled(QrReader)`
-  background: red;
   height: 100vw;
   overflow: hidden;
 `

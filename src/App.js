@@ -15,30 +15,62 @@ injectGlobal`
 `
 
 const Container = styled.div`
+  display: flex;
+  
+  flex-direction: column;
+  
   height: 100%;
+`
+
+const QrReaderContainer = styled.div`
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  height: 100vw;
+`
+
+const Button = styled.button`
 `
 
 const QrReaderComponent = styled(QrReader)`
   height: 100vw;
+
   overflow: hidden;
 `
 
 export default class App extends React.Component {
   constructor() {
     super()
-    this.state = { result: null }
+    this.state = {
+      qrMode: false,
+      result: null
+    }
+
+    this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
   }
 
   render() {
     return (
       <Container>
-        <QrReaderComponent
-          delay={ 100 }
-          onError={ (error) => console.log(error) }
-          onScan={ (result) => this.setState({ result }) }
-          style={ { width: "100%" } } />
+        <QrReaderContainer>
+          { this.state.qrMode
+            ? <QrReaderComponent
+              delay={ 100 }
+              onError={ (error) => console.log(error) }
+              onScan={ (result) => this.setState({ result }) }
+              style={ { width: "100%" } } />
+            : <Button onClick={ this.onQrButtonClicked }>QR</Button>
+          }
+        </QrReaderContainer>
+        { this.state.qrMode && <Button onClick={ this.onQrButtonClicked }>Back</Button> }
         { this.state.result && <div>{ this.state.result }</div> }
       </Container>
     )
+  }
+
+  onQrButtonClicked() {
+    this.setState({ qrMode: !this.state.qrMode })
   }
 }

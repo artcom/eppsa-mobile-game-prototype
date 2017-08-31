@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { injectGlobal } from "styled-components"
+import styled, { injectGlobal, keyframes } from "styled-components"
 import "./App.css"
 import QrReader from "react-qr-reader"
 
@@ -53,6 +53,16 @@ const ScanIcon = styled(ScanIconSvg)`
   padding: 10vw;
 `
 
+const fadeIn = keyframes`
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+`
+
 const QrReaderContainer = styled.div`
   position: absolute;
   
@@ -60,6 +70,10 @@ const QrReaderContainer = styled.div`
   height: 100vw;
   
   overflow: hidden;
+  
+  background: black;
+  
+  animation: ${fadeIn} 1s linear;
 `
 
 const BackButton = styled(ExitIconSvg)`

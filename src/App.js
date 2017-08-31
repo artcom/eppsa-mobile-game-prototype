@@ -4,6 +4,7 @@ import "./App.css"
 import QrReader from "react-qr-reader"
 
 import ScanIconSvg from "./icon-scan.svg"
+import ExitIconSvg from "./icon-exit.svg"
 
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`
@@ -52,10 +53,24 @@ const ScanIcon = styled(ScanIconSvg)`
   padding: 10vw;
 `
 
-const QrReaderComponent = styled(QrReader)`
+const QrReaderContainer = styled.div`
+  position: absolute;
+  
+  width: 100%;
   height: 100vw;
-
+  
   overflow: hidden;
+`
+
+const BackButton = styled(ExitIconSvg)`
+  width: 15vw;
+  height: 15vw;
+  
+  position: absolute;
+  bottom: 5vw;
+  right: 5vw;
+  
+  z-index: 1;
 `
 
 const ItemSlot = styled(Circle)`
@@ -81,15 +96,17 @@ export default class App extends React.Component {
       <Container>
         <TopContainer>
           { this.state.qrMode
-            ? <QrReaderComponent
-              delay={ 100 }
-              onError={ (error) => console.log(error) }
-              onScan={ (result) => this.setState({ result }) }
-              style={ { width: "100%" } } />
+            ? <QrReaderContainer>
+              <BackButton onClick={ this.onQrButtonClicked } />
+              <QrReader
+                delay={ 100 }
+                onError={ (error) => console.log(error) }
+                onScan={ (result) => this.setState({ result }) }
+                style={ { width: "100%" } } />
+            </QrReaderContainer>
             : <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
           }
         </TopContainer>
-        { this.state.qrMode && <button onClick={ this.onQrButtonClicked }>Back</button> }
         { this.state.result && <div>{ this.state.result }</div> }
         <BottomContainer>
           <ItemSlot />

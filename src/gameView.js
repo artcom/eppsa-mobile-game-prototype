@@ -1,6 +1,5 @@
 import React from "react"
 import styled, { injectGlobal, keyframes } from "styled-components"
-import "./App.css"
 import QrReader from "react-qr-reader"
 
 import ScanIconSvg from "./icon-scan.svg"

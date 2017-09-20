@@ -111,7 +111,8 @@ export default class GameView extends React.Component {
       <Container>
         <TopContainer>
           { this.state.qrMode
-            ? <QrReaderContainer>
+            ?
+            <QrReaderContainer>
               <BackButton onClick={ this.onQrButtonClicked } />
               <QrReader
                 delay={ 100 }
@@ -119,7 +120,8 @@ export default class GameView extends React.Component {
                 onScan={ (result) => this.setState({ result }) }
                 style={ { width: "100%" } } />
             </QrReaderContainer>
-            : <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
+            :
+            <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
           }
         </TopContainer>
         { this.state.result && <div>{ this.renderItemCard() }</div> }

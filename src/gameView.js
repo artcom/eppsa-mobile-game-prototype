@@ -5,7 +5,10 @@ import QrReader from "react-qr-reader"
 import ScanIconSvg from "./icon-scan.svg"
 import ExitIconSvg from "./icon-exit.svg"
 
+import Inventory from "./inventory"
 import ItemCard from "./itemCard"
+
+import Circle from "./circle"
 
 import data from "./data.json"
 
@@ -33,17 +36,8 @@ const TopContainer = styled.div`
   height: 100vw;
 `
 
-const BottomContainer = styled.div`
-  display: flex;
-  
-  justify-content: space-around;
-  align-items: center;
-  
+const BottomContainer = styled.div` 
   height: calc(100vh - 100vw);
-`
-
-const Circle = styled.div`
-  border-radius: 50%;
 `
 
 const CircleButton = styled(Circle)`
@@ -90,28 +84,29 @@ const BackButton = styled(ExitIconSvg)`
   z-index: 1;
 `
 
-const ItemSlot = styled(Circle)`
-  width: 25vw;
-  height: 25vw;
-
-  border: 1px solid black;  
-`
-
 export default class GameView extends React.Component {
   constructor() {
     super()
     this.state = {
       qrMode: false,
-      result: null
+      result: "copper",
+      items: []
     }
 
     this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
+    this.onItemTake = this.onItemTake.bind(this)
+    this.onItemDiscard = this.onItemDiscard.bind(this)
   }
 
   render() {
     return (
       <Container>
-        { this.state.result && <ItemCard item={ data.game.items[this.state.result] } /> }
+        { this.state.result
+          &&
+          <ItemCard
+            item={ data.game.items[this.state.result] }
+            onTake={ this.onItemTake }
+            onDiscard={ this.onItemDiscard } /> }
         <TopContainer>
           { this.state.qrMode
             ?
@@ -124,13 +119,10 @@ export default class GameView extends React.Component {
                 style={ { width: "100%" } } />
             </QrReaderContainer>
             :
-            <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
-          }
+            <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton> }
         </TopContainer>
         <BottomContainer>
-          <ItemSlot />
-          <ItemSlot />
-          <ItemSlot />
+          <Inventory items={ this.state.items } />
         </BottomContainer>
       </Container>
     )
@@ -144,5 +136,13 @@ export default class GameView extends React.Component {
 
   onQrButtonClicked() {
     this.setState({ qrMode: !this.state.qrMode })
+  }
+
+  onItemTake() {
+    this.setState({ result: null, items: [this.state.result, ...this.state.items] })
+  }
+
+  onItemDiscard() {
+    this.setState({ result: null })
   }
 }

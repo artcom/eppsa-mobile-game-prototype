@@ -5,6 +5,8 @@ import QrReader from "react-qr-reader"
 import ScanIconSvg from "./icon-scan.svg"
 import ExitIconSvg from "./icon-exit.svg"
 
+import data from "./data.json"
+
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`
   #root, html, body {
@@ -120,7 +122,7 @@ export default class GameView extends React.Component {
             : <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
           }
         </TopContainer>
-        { this.state.result && <div>{ this.state.result }</div> }
+        { this.state.result && <div>{ this.renderItemCard() }</div> }
         <BottomContainer>
           <ItemSlot />
           <ItemSlot />
@@ -132,5 +134,10 @@ export default class GameView extends React.Component {
 
   onQrButtonClicked() {
     this.setState({ qrMode: !this.state.qrMode })
+  }
+
+  renderItemCard() {
+    const item = JSON.stringify(data.game.items[this.state.result])
+    return item
   }
 }

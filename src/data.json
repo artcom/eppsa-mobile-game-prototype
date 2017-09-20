@@ -1,130 +1,138 @@
 {
   game: {
-    name: "shipbuilding",
+    name: "Shipbuilding",
     quests: [
       {
-        itemCategories: [
+        name: "Material",
+        description: "Find the most stable material for shipbuilding",
+        items: [
           {
-            name: "wood",
-            description: "Find the most stable material for shipbuilding",
-            items: [
-              {
-                name: "Pine",
-                descrition: "Pines are among the most commercially important tree species valued for their timber and wood pulp throughout the world. In temperate and tropical regions, they are fast-growing softwoods that will grow in relatively dense stands, their acidic decaying needles inhibiting the sprouting of competing hardwoods."
-              },
-              {
-                name: "Oak",
-                description: "Oak wood has a density of about 0.75 g/cm3 (0.43 oz/cu in) creating great strength and hardness. The wood is very resistant to insect and fungal attack because of its high tannin content. It also has very appealing grain markings, particularly when quartersawn. Oak planking was common on high status Viking longships in the 9th and 10th centuries."
-              },
-              {
-                name: "Teak",
-                description: "Teak's high oil content, high tensile strength and tight grain make it particularly suitable where weather resistance is desired. It is used in the manufacture of outdoor furniture and boat decks."
-              }
-            ]
+            id: "pine",
+            name: "Pine",
+            descrition: "Pines are among the most commercially important tree species valued for their timber and wood pulp throughout the world. In temperate and tropical regions, they are fast-growing softwoods that will grow in relatively dense stands, their acidic decaying needles inhibiting the sprouting of competing hardwoods."
           },
           {
-            name: "connectors",
-            description: "Find the best connection material for shipbuilding",
-            items: [
-              {
-                name: "Iron",
-                descrition: "Iron nails with the pointed nail ends protruding on the inside of the boat, bent over and back into the wood in the form of a hook."
-              },
-              {
-                name: "Steel",
-                description: "Steel is an alloy of iron and other elements, primarily carbon. Because of its high tensile strength and low cost, it is a major component in buildings, infrastructure, tools, ships, automobiles, machines, appliances, and weapons."
-              },
-              {
-                name: "Copper",
-                description: "Copper has been used since ancient times as a durable, corrosion resistant, and weatherproof architectural material. Roofs, flashings, rain gutters, downspouts, domes, spires, vaults, and doors have been made from copper for hundreds or thousands of years."
-              }
-            ]
+            id: "oak",
+            name: "Oak",
+            description: "Oak wood has a density of about 0.75 g/cm3 (0.43 oz/cu in) creating great strength and hardness. The wood is very resistant to insect and fungal attack because of its high tannin content. It also has very appealing grain markings, particularly when quartersawn. Oak planking was common on high status Viking longships in the 9th and 10th centuries."
           },
           {
-            name: "protection",
-            description: "Find the best protection against wear of friction",
-            items: [
-              {
-                name: "Hemp",
-                descrition: "Hemp rope was used in the age of sailing ships, though the rope had to be protected by tarring, since hemp rope has a propensity for breaking from rot, as the capillary effect of the rope-woven fibers tended to hold liquid at the interior, while seeming dry from the outside."
-              },
-              {
-                name: "Pine Tar",
-                description: "Pine tar can be used for preserving wooden boats (and other wood which will be exposed to the elements) by using a mixture of pine tar, gum turpentine and boiled linseed oil."
-              },
-              {
-                name: "Resin",
-                description: "Plant resins are valued for the production of varnishes, adhesives, and food glazing agents. They are also prized as raw materials for the synthesis of other organic compounds and provide constituents of incense and perfume. The oldest known use of plant resin comes from the late Middle Stone Age in Southern Africa where it was used as an adhesive for hafting stone tools."
-              }
-            ]
+            id: "teak",
+            name: "Teak",
+            description: "Teak's high oil content, high tensile strength and tight grain make it particularly suitable where weather resistance is desired. It is used in the manufacture of outdoor furniture and boat decks."
           }
         ]
       },
       {
-        itemCategories: [
+        name: "Connectors",
+        description: "Find the best connection material for shipbuilding",
+        items: [
           {
-            name: "Ship Engine",
-            description: "Find the best technique of propulsion",
-            items: [
-              {
-                name: "Linen Sailcloth",
-                descrition: "These natural fibers have poor resistance to rot, UV light and water absorption. Linen is stronger, but cotton is lighter. Linen was the traditional fiber of sails until it was supplanted by cotton during the 19th century"
-              },
-              {
-                name: "Cotton Sailcloth",
-                description: "As sail size grew linen was too heavy to be practical so cotton became more popular. Cotton did not substantially replace linen worldwide until the end of the age of sail; however, in some cases the strength of linen was preferred for some types of sails."
-              },
-              {
-                name: "Synthetic Fibers",
-                description: "It was not until the late 20th century that natural fibers were replaced by synthetics in mainstream use."
-              }
-            ]
+            id: "iron",
+            name: "Iron",
+            descrition: "Iron nails with the pointed nail ends protruding on the inside of the boat, bent over and back into the wood in the form of a hook."
           },
           {
-            name: "Emergency",
-            description: "Find the best technique of emergency propulsion",
-            items: [
-              {
-                name: "Paddle",
-                descrition: "Aenean viverra tortor quis nisi commodo, id pellentesque magna interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-              },
-              {
-                name: "Life jacket",
-                description: "Fusce aliquam, metus sed porta elementum, dolor urna ornare magna, eget aliquet sem elit ac nibh. Nullam malesuada nec orci commodo pulvinar."
-              },
-              {
-                name: "Life raft",
-                description: "Ut suscipit velit eget mauris tristique consectetur. Nullam rhoncus nec libero at efficitur."
-              }
-            ]
+            id: "steel",
+            name: "Steel",
+            description: "Steel is an alloy of iron and other elements, primarily carbon. Because of its high tensile strength and low cost, it is a major component in buildings, infrastructure, tools, ships, automobiles, machines, appliances, and weapons."
           },
           {
-            name: "Food",
-            description: "Find the best food for transit",
-            items: [
-              {
-                name: "Hardtack",
-                descrition: "Hardtack is inexpensive and long-lasting. It is used for sustenance in the absence of perishable foods, commonly during long sea voyages, land migrations, and military campaigns."
-              },
-              {
-                name: "Dried meat",
-                description: "Even in 1938, Eric Newby found the diet on the tall ship Moshulu to consist almost entirely of salted meat. Moshulu's lack of refrigeration left little choice as the ship made voyages which could exceed 100 days passage between ports."
-              },
-              {
-                name: "Alcohol",
-                description: "Alcohol has long been connected with life at sea."
-              },
-              {
-                name: "Fruits and vegetables",
-                description: "Fresh vegetables and citrus juice are the only substantial sources of vitamin C."
-              }
-            ]
+            id: "copper",
+            name: "Copper",
+            description: "Copper has been used since ancient times as a durable, corrosion resistant, and weatherproof architectural material. Roofs, flashings, rain gutters, downspouts, domes, spires, vaults, and doors have been made from copper for hundreds or thousands of years."
+          }
+        ]
+      },
+      {
+        name: "Protection",
+        description: "Find the best protection against wear of friction",
+        items: [
+          {
+            id: "hemp",
+            name: "Hemp",
+            descrition: "Hemp rope was used in the age of sailing ships, though the rope had to be protected by tarring, since hemp rope has a propensity for breaking from rot, as the capillary effect of the rope-woven fibers tended to hold liquid at the interior, while seeming dry from the outside."
+          },
+          {
+            id: "pine-tar",
+            name: "Pine Tar",
+            description: "Pine tar can be used for preserving wooden boats (and other wood which will be exposed to the elements) by using a mixture of pine tar, gum turpentine and boiled linseed oil."
+          },
+          {
+            id: "resin",
+            name: "Resin",
+            description: "Plant resins are valued for the production of varnishes, adhesives, and food glazing agents. They are also prized as raw materials for the synthesis of other organic compounds and provide constituents of incense and perfume. The oldest known use of plant resin comes from the late Middle Stone Age in Southern Africa where it was used as an adhesive for hafting stone tools."
+          }
+        ]
+      },
+      {
+        name: "Ship Engine",
+        description: "Find the best technique of propulsion",
+        items: [
+          {
+            id: "linen-sailcloth",
+            name: "Linen Sailcloth",
+            descrition: "These natural fibers have poor resistance to rot, UV light and water absorption. Linen is stronger, but cotton is lighter. Linen was the traditional fiber of sails until it was supplanted by cotton during the 19th century"
+          },
+          {
+            id: "cotton-sailcloth",
+            name: "Cotton Sailcloth",
+            description: "As sail size grew linen was too heavy to be practical so cotton became more popular. Cotton did not substantially replace linen worldwide until the end of the age of sail; however, in some cases the strength of linen was preferred for some types of sails."
+          },
+          {
+            id: "synthetic-fibers",
+            name: "Synthetic Fibers",
+            description: "It was not until the late 20th century that natural fibers were replaced by synthetics in mainstream use."
+          }
+        ]
+      },
+      {
+        name: "Emergency",
+        description: "Find the best technique of emergency propulsion",
+        items: [
+          {
+            id: "paddle",
+            name: "Paddle",
+            descrition: "Aenean viverra tortor quis nisi commodo, id pellentesque magna interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+          },
+          {
+            id: "life-jacket",
+            name: "Life jacket",
+            description: "Fusce aliquam, metus sed porta elementum, dolor urna ornare magna, eget aliquet sem elit ac nibh. Nullam malesuada nec orci commodo pulvinar."
+          },
+          {
+            id: "life-raft",
+            name: "Life raft",
+            description: "Ut suscipit velit eget mauris tristique consectetur. Nullam rhoncus nec libero at efficitur."
+          }
+        ]
+      },
+      {
+        name: "Food",
+        description: "Find the best food for transit",
+        items: [
+          {
+            id: "hardtack",
+            name: "Hardtack",
+            descrition: "Hardtack is inexpensive and long-lasting. It is used for sustenance in the absence of perishable foods, commonly during long sea voyages, land migrations, and military campaigns."
+          },
+          {
+            id: "dried-meat",
+            name: "Dried meat",
+            description: "Even in 1938, Eric Newby found the diet on the tall ship Moshulu to consist almost entirely of salted meat. Moshulu's lack of refrigeration left little choice as the ship made voyages which could exceed 100 days passage between ports."
+          },
+          {
+            id: "alcohol",
+            name: "Alcohol",
+            description: "Alcohol has long been connected with life at sea."
+          },
+          {
+            id: "fruits-and-vegetables",
+            name: "Fruits and vegetables",
+            description: "Fresh vegetables and citrus juice are the only substantial sources of vitamin C."
           }
         ]
       }
     ]
-  },
-  questId: "",
-  itemCategory: "material",
-  itemDescrition: "Find the most stable material for shipbuilding"
+  }
 }

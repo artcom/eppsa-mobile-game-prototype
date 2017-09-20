@@ -5,6 +5,8 @@ import QrReader from "react-qr-reader"
 import ScanIconSvg from "./icon-scan.svg"
 import ExitIconSvg from "./icon-exit.svg"
 
+import ItemCard from "./itemCard"
+
 import data from "./data.json"
 
 // eslint-disable-next-line no-unused-expressions
@@ -109,6 +111,7 @@ export default class GameView extends React.Component {
   render() {
     return (
       <Container>
+        { this.state.result && <ItemCard item={ data.game.items[this.state.result] } /> }
         <TopContainer>
           { this.state.qrMode
             ?
@@ -117,14 +120,13 @@ export default class GameView extends React.Component {
               <QrReader
                 delay={ 100 }
                 onError={ (error) => console.log(error) }
-                onScan={ (result) => this.setState({ result }) }
+                onScan={ (result) => this.handleQrResult(result) }
                 style={ { width: "100%" } } />
             </QrReaderContainer>
             :
             <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton>
           }
         </TopContainer>
-        { this.state.result && <div>{ this.renderItemCard() }</div> }
         <BottomContainer>
           <ItemSlot />
           <ItemSlot />
@@ -134,12 +136,13 @@ export default class GameView extends React.Component {
     )
   }
 
-  onQrButtonClicked() {
-    this.setState({ qrMode: !this.state.qrMode })
+  handleQrResult(result) {
+    if (data.game.items[result]) {
+      this.setState({ result, qrMode: false })
+    }
   }
 
-  renderItemCard() {
-    const item = JSON.stringify(data.game.items[this.state.result])
-    return item
+  onQrButtonClicked() {
+    this.setState({ qrMode: !this.state.qrMode })
   }
 }

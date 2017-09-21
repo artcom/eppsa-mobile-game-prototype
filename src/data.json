@@ -1,7 +1,74 @@
 {
   "game": {
     "name": "Shipbuilding",
-    "description": "King XYZ calls for building a ship. Therefore the King commands his servants to investigate the best shipbuilding techniques, tools and materials of all civilizations to create the best ship construction.",
+    "description": "King Jellybean calls for building a ship. Therefore the king commands his servants to investigate the best shipbuilding techniques, tools and materials of all civilizations to create the best ship construction.",
+    "players": [
+      {
+        "name": "Rick",
+        "quests": ["material", "connectors", "protection"]
+      },
+      {
+        "name": "Morty",
+        "quests": ["ship-engine", "emergency", "food"]
+      }
+    ],
+    "quests": {
+      "material": {
+        "name": "Material",
+        "description": "Find the most stable material for shipbuilding",
+        "items": [
+          "pine",
+          "oak",
+          "teak"
+        ]
+      },
+      "connectors": {
+        "name": "Connectors",
+        "description": "Find the best connection material for shipbuilding",
+        "items": [
+          "iron",
+          "steel",
+          "copper"
+        ]
+      },
+      "protection": {
+        "name": "Protection",
+        "description": "Find the best protection against wear of friction",
+        "items": [
+          "hemp",
+          "pine-tar",
+          "resin"
+        ]
+      },
+      "ship-engine": {
+        "name": "Ship Engine",
+        "description": "Find the best technique of propulsion",
+        "items": [
+          "linen-sailcloth",
+          "cotton-sailcloth",
+          "synthetic-fibers"
+        ]
+      },
+      "emergency": {
+        "name": "Emergency",
+        "description": "Find the best technique of emergency propulsion",
+        "items": [
+          "paddle",
+          "life-jacket",
+          "life-raft"
+        ]
+      },
+      "food": {
+        "name": "Food",
+        "description": "Find the best food for transit",
+        "items": [
+          "hardtack",
+          "dried-meat",
+          "alcohol",
+          "fruits-and-vegetables"
+        ]
+      }
+    },
     "items": {
       "pine": {
         "name": "Pine",
@@ -78,63 +145,6 @@
       "fruits-and-vegetables": {
         "name": "Fruits and vegetables",
         "description": "Fresh vegetables and citrus juice are the only substantial sources of vitamin C."
-      }
-    },
-    "quests": {
-      "material": {
-        "name": "Material",
-        "description": "Find the most stable material for shipbuilding",
-        "items": [
-          "pine",
-          "oak",
-          "teak"
-        ]
-      },
-      "connectors": {
-        "name": "Connectors",
-        "description": "Find the best connection material for shipbuilding",
-        "items": [
-          "iron",
-          "steel",
-          "copper"
-        ]
-      },
-      "protection": {
-        "name": "Protection",
-        "description": "Find the best protection against wear of friction",
-        "items": [
-          "hemp",
-          "pine-tar",
-          "resin"
-        ]
-      },
-      "ship-engine": {
-        "name": "Ship Engine",
-        "description": "Find the best technique of propulsion",
-        "items": [
-          "linen-sailcloth",
-          "cotton-sailcloth",
-          "synthetic-fibers"
-        ]
-      },
-      "emergency": {
-        "name": "Emergency",
-        "description": "Find the best technique of emergency propulsion",
-        "items": [
-          "paddle",
-          "life-jacket",
-          "life-raft"
-        ]
-      },
-      "food": {
-        "name": "Food",
-        "description": "Find the best food for transit",
-        "items": [
-          "hardtack",
-          "dried-meat",
-          "alcohol",
-          "fruits-and-vegetables"
-        ]
       }
     }
   }

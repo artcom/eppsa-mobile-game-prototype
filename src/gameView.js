@@ -87,10 +87,21 @@ const BackButton = styled(ExitIconSvg)`
 export default class GameView extends React.Component {
   constructor() {
     super()
+
+    this.player = data.game.players[0]
+    this.quests = this.player.quests
+    this.questItems = this.quests.map(quest =>
+      data.game.quests[quest].items
+    ).reduce((a, b) => a.concat(b), [])
+
     this.state = {
       qrMode: false,
       result: "copper",
-      items: []
+      inventory: {
+        [this.quests[0]]: null,
+        [this.quests[1]]: null,
+        [this.quests[2]]: null
+      }
     }
 
     this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
@@ -99,12 +110,15 @@ export default class GameView extends React.Component {
   }
 
   render() {
+    const itemId = this.state.result
+
     return (
       <Container>
-        { this.state.result
+        { itemId
           &&
           <ItemCard
-            item={ data.game.items[this.state.result] }
+            item={ data.game.items[itemId] }
+            isQuestItem={ this.questItems.includes(itemId) }
             onTake={ this.onItemTake }
             onDiscard={ this.onItemDiscard } /> }
         <TopContainer>
@@ -122,7 +136,7 @@ export default class GameView extends React.Component {
             <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton> }
         </TopContainer>
         <BottomContainer>
-          <Inventory items={ this.state.items } />
+          <Inventory inventory={ this.state.inventory } />
         </BottomContainer>
       </Container>
     )
@@ -139,7 +153,17 @@ export default class GameView extends React.Component {
   }
 
   onItemTake() {
-    this.setState({ result: null, items: [this.state.result, ...this.state.items] })
+    const itemId = this.state.result
+
+    const inventory = this.state.inventory
+
+    const [questId] = this.quests.filter(quest =>
+      data.game.quests[quest].items.includes(itemId)
+    )
+
+    inventory[questId] = itemId
+
+    this.setState({ result: null, inventory })
   }
 
   onItemDiscard() {

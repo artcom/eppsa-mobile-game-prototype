@@ -69,14 +69,14 @@ const CancelButton = styled(CancelIconSvg)`
   height: 20vw;
 `
 
-export default ({ item, onTake, onDiscard }) =>
+export default ({ item, isQuestItem, onTake, onDiscard }) =>
   <Container>
     <Card>
       <h1>{ item.name }</h1>
       <Placeholder />
       <Description>{ item.description }</Description>
       <ButtonContainer>
-        <OkButton onClick={ onTake } />
+        { isQuestItem && <OkButton onClick={ onTake } /> }
         <CancelButton onClick={ onDiscard } />
       </ButtonContainer>
     </Card>

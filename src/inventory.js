@@ -24,9 +24,15 @@ const ItemSlot = styled(Circle)`
   border: 1px solid black;  
 `
 
-export default ({ items }) =>
-  <Container>
-    <ItemSlot>{ items[0] }</ItemSlot>
-    <ItemSlot>{ items[1] }</ItemSlot>
-    <ItemSlot>{ items[2] }</ItemSlot>
-  </Container>
+export default ({ inventory }) => {
+  const entries = Object.entries(inventory)
+
+  return (
+    <Container>
+      <ItemSlot>{ entries[0][1] }</ItemSlot>
+      <ItemSlot>{ entries[1][1] }</ItemSlot>
+      <ItemSlot>{ entries[2][1] }</ItemSlot>
+    </Container>
+  )
+}
+

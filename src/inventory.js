@@ -21,18 +21,29 @@ const ItemSlot = styled(Circle)`
   width: 25vw;
   height: 25vw;
 
-  border: 1px solid black;  
+  border: ${props => props.isSelected ? "3px solid black" : "1px solid black"};
 `
 
-export default ({ inventory, onItemSelect }) => {
-  const entries = Object.entries(inventory)
+export default ({ inventory, onItemSelect, selectedItem }) => {
+  const items = Object.entries(inventory).map((entry) => entry[1])
 
   return (
     <Container>
-      <ItemSlot onClick={ () => onItemSelect(entries[0][1]) } >{ entries[0][1] }</ItemSlot>
-      <ItemSlot onClick={ () => onItemSelect(entries[1][1]) } >{ entries[1][1] }</ItemSlot>
-      <ItemSlot onClick={ () => onItemSelect(entries[2][1]) } >{ entries[2][1] }</ItemSlot>
+      <ItemSlot
+        isSelected={ selectedItem !== null && selectedItem === items[0] }
+        onClick={ () => onItemSelect(items[0]) } >
+        { items[0] }
+      </ItemSlot>
+      <ItemSlot
+        isSelected={ selectedItem !== null && selectedItem === items[1] }
+        onClick={ () => onItemSelect(items[1]) } >
+        { items[1] }
+      </ItemSlot>
+      <ItemSlot
+        isSelected={ selectedItem !== null && selectedItem === items[2] }
+        onClick={ () => onItemSelect(items[2]) } >
+        { items[2] }
+      </ItemSlot>
     </Container>
   )
 }
-

@@ -155,6 +155,7 @@ export default class GameView extends React.Component {
         <BottomContainer>
           <Inventory
             inventory={ this.state.inventory }
+            selectedItem={ this.state.selectedItemId }
             onItemSelect={ (item) => this.onItemSelect(item) } />
         </BottomContainer>
       </Container>

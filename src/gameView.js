@@ -96,7 +96,7 @@ export default class GameView extends React.Component {
 
     this.state = {
       qrMode: false,
-      result: "copper",
+      scannedItemId: "copper",
       inventory: {
         [this.quests[0]]: null,
         [this.quests[1]]: null,
@@ -110,7 +110,7 @@ export default class GameView extends React.Component {
   }
 
   render() {
-    const itemId = this.state.result
+    const itemId = this.state.scannedItemId
 
     return (
       <Container>
@@ -129,7 +129,7 @@ export default class GameView extends React.Component {
               <QrReader
                 delay={ 100 }
                 onError={ (error) => console.log(error) }
-                onScan={ (result) => this.handleQrResult(result) }
+                onScan={ (scannedItemId) => this.handleQrResult(scannedItemId) }
                 style={ { width: "100%" } } />
             </QrReaderContainer>
             :
@@ -142,9 +142,9 @@ export default class GameView extends React.Component {
     )
   }
 
-  handleQrResult(result) {
-    if (data.game.items[result]) {
-      this.setState({ result, qrMode: false })
+  handleQrResult(scannedItemId) {
+    if (data.game.items[scannedItemId]) {
+      this.setState({ scannedItemId, qrMode: false })
     }
   }
 
@@ -153,7 +153,7 @@ export default class GameView extends React.Component {
   }
 
   onItemTake() {
-    const itemId = this.state.result
+    const itemId = this.state.scannedItemId
 
     const inventory = this.state.inventory
 
@@ -163,10 +163,10 @@ export default class GameView extends React.Component {
 
     inventory[questId] = itemId
 
-    this.setState({ result: null, inventory })
+    this.setState({ scannedItemId: null, inventory })
   }
 
   onItemDiscard() {
-    this.setState({ result: null })
+    this.setState({ scannedItemId: null })
   }
 }

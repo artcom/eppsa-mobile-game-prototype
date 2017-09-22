@@ -40,6 +40,20 @@ const BottomContainer = styled.div`
   height: calc(100vh - 100vw);
 `
 
+const ScannedItemCardContainer = styled.div`
+  position: absolute;
+
+  display: flex;
+  
+  width: 100vw;
+  height: 100%;
+  
+  justify-content: center;
+  align-items: center;
+  
+  background-color: rgba(0, 0, 0, 0.2);
+`
+
 const CircleButton = styled(Circle)`
   border: 1px solid black;
 `
@@ -97,6 +111,7 @@ export default class GameView extends React.Component {
     this.state = {
       qrMode: false,
       scannedItemId: "copper",
+      selectedItemId: null,
       inventory: {
         [this.quests[0]]: null,
         [this.quests[1]]: null,
@@ -110,20 +125,22 @@ export default class GameView extends React.Component {
   }
 
   render() {
-    const itemId = this.state.scannedItemId
+    const scannedItemId = this.state.scannedItemId
+    const selectedItemId = this.state.selectedItemId
 
     return (
       <Container>
-        { itemId
+        { scannedItemId
           &&
-          <ItemCard
-            item={ data.game.items[itemId] }
-            isQuestItem={ this.questItems.includes(itemId) }
-            onTake={ this.onItemTake }
-            onDiscard={ this.onItemDiscard } /> }
+          <ScannedItemCardContainer>
+            <ItemCard
+              item={ data.game.items[scannedItemId] }
+              onTake={ this.questItems.includes(scannedItemId) && this.onItemTake }
+              onDiscard={ this.onItemDiscard } />
+          </ScannedItemCardContainer> }
         <TopContainer>
-          { this.state.qrMode
-            ?
+          { selectedItemId && <ItemCard item={ data.game.items[selectedItemId] } /> }
+          { this.state.qrMode &&
             <QrReaderContainer>
               <BackButton onClick={ this.onQrButtonClicked } />
               <QrReader
@@ -131,12 +148,14 @@ export default class GameView extends React.Component {
                 onError={ (error) => console.log(error) }
                 onScan={ (scannedItemId) => this.handleQrResult(scannedItemId) }
                 style={ { width: "100%" } } />
-            </QrReaderContainer>
-            :
+            </QrReaderContainer> }
+          { !this.state.qrMode && !selectedItemId &&
             <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton> }
         </TopContainer>
         <BottomContainer>
-          <Inventory inventory={ this.state.inventory } />
+          <Inventory
+            inventory={ this.state.inventory }
+            onItemSelect={ (item) => this.onItemSelect(item) } />
         </BottomContainer>
       </Container>
     )
@@ -168,5 +187,9 @@ export default class GameView extends React.Component {
 
   onItemDiscard() {
     this.setState({ scannedItemId: null })
+  }
+
+  onItemSelect(item) {
+    this.setState({ selectedItemId: item })
   }
 }

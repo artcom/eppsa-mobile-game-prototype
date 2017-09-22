@@ -5,25 +5,9 @@ import OkIconSvg from "./icon-ok.svg"
 import CancelIconSvg from "./icon-cancel.svg"
 import PlaceholderSvg from "./icon-maintenance.svg"
 
-const Container = styled.div`
-  position: absolute;
-
-  display: flex;
-  
-  width: 100vw;
-  height: 100%;
-  
-  justify-content: center;
-  align-items: center;  
-  
-  background-color: rgba(0, 0, 0, 0.2);
-`
-
 const Card = styled.div`
-  position: absolute;
-
-  width: 80vw;
-  height: 80vh;
+  width: 80%;
+  height: 80%;
   
   display: flex;
   flex-direction: column;
@@ -69,15 +53,13 @@ const CancelButton = styled(CancelIconSvg)`
   height: 20vw;
 `
 
-export default ({ item, isQuestItem, onTake, onDiscard }) =>
-  <Container>
-    <Card>
-      <h1>{ item.name }</h1>
-      <Placeholder />
-      <Description>{ item.description }</Description>
-      <ButtonContainer>
-        { isQuestItem && <OkButton onClick={ onTake } /> }
-        <CancelButton onClick={ onDiscard } />
-      </ButtonContainer>
-    </Card>
-  </Container>
+export default ({ item, onTake, onDiscard }) =>
+  <Card>
+    <h1>{ item.name }</h1>
+    <Placeholder />
+    <Description>{ item.description }</Description>
+    <ButtonContainer>
+      { onTake && <OkButton onClick={ onTake } /> }
+      { onDiscard && <CancelButton onClick={ onDiscard } /> }
+    </ButtonContainer>
+  </Card>

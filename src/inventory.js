@@ -24,14 +24,14 @@ const ItemSlot = styled(Circle)`
   border: 1px solid black;  
 `
 
-export default ({ inventory }) => {
+export default ({ inventory, onItemSelect }) => {
   const entries = Object.entries(inventory)
 
   return (
     <Container>
-      <ItemSlot>{ entries[0][1] }</ItemSlot>
-      <ItemSlot>{ entries[1][1] }</ItemSlot>
-      <ItemSlot>{ entries[2][1] }</ItemSlot>
+      <ItemSlot onClick={ () => onItemSelect(entries[0][1]) } >{ entries[0][1] }</ItemSlot>
+      <ItemSlot onClick={ () => onItemSelect(entries[1][1]) } >{ entries[1][1] }</ItemSlot>
+      <ItemSlot onClick={ () => onItemSelect(entries[2][1]) } >{ entries[2][1] }</ItemSlot>
     </Container>
   )
 }

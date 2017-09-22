@@ -191,6 +191,10 @@ export default class GameView extends React.Component {
   }
 
   onItemSelect(item) {
-    this.setState({ selectedItemId: item })
+    if (item === this.state.selectedItemId) {
+      this.setState({ selectedItemId: null })
+    } else {
+      this.setState({ selectedItemId: item })
+    }
   }
 }

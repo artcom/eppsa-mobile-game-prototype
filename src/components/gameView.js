@@ -26,8 +26,12 @@ const TopContainer = styled.div`
   height: 100vw;
 `
 
-const BottomContainer = styled.div` 
-  height: calc(100vh - 100vw);
+const BottomContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  height: calc(100% - 100vw);
 `
 
 const ScannedItemCardContainer = styled.div`

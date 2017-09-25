@@ -22,6 +22,10 @@ const Card = styled.div`
   background: white;
 `
 
+const Name = styled.div`
+  font-size: 10vmin;
+`
+
 const Placeholder = styled(PlaceholderSvg)`
   width: 60vw;
   height: 60vw;
@@ -31,6 +35,12 @@ const Placeholder = styled(PlaceholderSvg)`
 
 const Description = styled.div`
   width: 70vw;
+  max-height: 30%;
+    
+  text-align: center;
+    
+  text-overflow: ellipsis;
+  overflow: hidden;
 `
 
 const ButtonContainer = styled.div`
@@ -55,7 +65,7 @@ const CancelButton = styled(CancelIconSvg)`
 
 export default ({ item, onTake, onDiscard }) =>
   <Card>
-    <h1>{ item.name }</h1>
+    <Name>{ item.name }</Name>
     <Placeholder />
     <Description>{ item.description }</Description>
     <ButtonContainer>

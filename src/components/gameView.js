@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { injectGlobal, keyframes } from "styled-components"
+import styled, { keyframes } from "styled-components"
 import QrReader from "react-qr-reader"
 
 import ScanIconSvg from "../svg/icon-scan.svg"
@@ -12,17 +12,6 @@ import ItemCard from "./itemCard"
 import Circle from "./circle"
 
 import data from "../data.json"
-
-// eslint-disable-next-line no-unused-expressions
-injectGlobal`
-  #root, html, body {
-    height: 100%;
-  }
-  
-  body {
-	margin: 0;
-  }
-`
 
 const Container = styled.div`
   height: 100%;

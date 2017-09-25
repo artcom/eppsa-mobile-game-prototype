@@ -4,6 +4,7 @@ import QrReader from "react-qr-reader"
 
 import ScanIconSvg from "./icon-scan.svg"
 import ExitIconSvg from "./icon-exit.svg"
+import SwitchIconSvg from "./icon-switch.svg"
 
 import Inventory from "./inventory"
 import ItemCard from "./itemCard"
@@ -44,6 +45,7 @@ const ScannedItemCardContainer = styled.div`
   position: absolute;
 
   display: flex;
+  flex-direction: column;
   
   width: 100vw;
   height: 100%;
@@ -52,6 +54,16 @@ const ScannedItemCardContainer = styled.div`
   align-items: center;
   
   background-color: rgba(0, 0, 0, 0.2);
+`
+
+const SwitchItemButton = styled(SwitchIconSvg)`
+  position: absolute;
+  
+  display: flex;
+  align-self: flex-end;
+
+  width: 15vw;
+  height: 15vw;
 `
 
 const CircleButton = styled(Circle)`
@@ -88,12 +100,12 @@ const QrReaderContainer = styled.div`
 `
 
 const BackButton = styled(ExitIconSvg)`
-  width: 15vw;
-  height: 15vw;
-  
   position: absolute;
   bottom: 5vw;
   right: 5vw;
+  
+  width: 15vw;
+  height: 15vw;
   
   z-index: 1;
 `
@@ -111,6 +123,7 @@ export default class GameView extends React.Component {
     this.state = {
       qrMode: false,
       scannedItemId: "copper",
+      previewItemId: "copper",
       selectedItemId: null,
       inventory: {
         [this.quests[0]]: null,
@@ -126,17 +139,27 @@ export default class GameView extends React.Component {
 
   render() {
     const scannedItemId = this.state.scannedItemId
+    const scannedQuestId = this.getQuestId(scannedItemId)
+
+    const previewItemId = this.state.previewItemId
+
+    const collectedItemId = this.state.inventory[scannedQuestId]
+
     const selectedItemId = this.state.selectedItemId
 
     return (
       <Container>
-        { scannedItemId
+        { previewItemId
           &&
           <ScannedItemCardContainer>
             <ItemCard
-              item={ data.game.items[scannedItemId] }
-              onTake={ this.questItems.includes(scannedItemId) && this.onItemTake }
-              onDiscard={ this.onItemDiscard } />
+              item={ data.game.items[previewItemId] }
+              onTake={ this.questItems.includes(previewItemId) && this.onItemTake }
+              onDiscard={ collectedItemId !== previewItemId && this.onItemDiscard } />
+            { collectedItemId && collectedItemId !== scannedItemId
+            &&
+            <SwitchItemButton
+              onClick={ () => this.switchItems(collectedItemId) } /> }
           </ScannedItemCardContainer> }
         <TopContainer>
           { selectedItemId && <ItemCard item={ data.game.items[selectedItemId] } /> }
@@ -164,7 +187,7 @@ export default class GameView extends React.Component {
 
   handleQrResult(scannedItemId) {
     if (data.game.items[scannedItemId]) {
-      this.setState({ scannedItemId, qrMode: false })
+      this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
     }
   }
 
@@ -173,21 +196,19 @@ export default class GameView extends React.Component {
   }
 
   onItemTake() {
-    const itemId = this.state.scannedItemId
+    const itemId = this.state.previewItemId
 
     const inventory = this.state.inventory
 
-    const [questId] = this.quests.filter(quest =>
-      data.game.quests[quest].items.includes(itemId)
-    )
+    const questId = this.getQuestId(itemId)
 
     inventory[questId] = itemId
 
-    this.setState({ scannedItemId: null, inventory })
+    this.setState({ scannedItemId: null, previewItemId: null, inventory })
   }
 
   onItemDiscard() {
-    this.setState({ scannedItemId: null })
+    this.setState({ scannedItemId: null, previewItemId: null })
   }
 
   onItemSelect(item) {
@@ -196,5 +217,21 @@ export default class GameView extends React.Component {
     } else {
       this.setState({ selectedItemId: item })
     }
+  }
+
+  switchItems(collectedItemId) {
+    const previewItemId = this.state.previewItemId === this.state.scannedItemId
+      ? collectedItemId
+      : this.state.scannedItemId
+
+    this.setState({ previewItemId })
+  }
+
+  getQuestId(itemId) {
+    const [questId] = this.quests.filter(quest =>
+      data.game.quests[quest].items.includes(itemId)
+    )
+
+    return questId
   }
 }

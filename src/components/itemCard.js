@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 
-import OkIconSvg from "./icon-ok.svg"
-import CancelIconSvg from "./icon-cancel.svg"
-import PlaceholderSvg from "./icon-maintenance.svg"
+import OkIconSvg from "../svg/icon-ok.svg"
+import CancelIconSvg from "../svg/icon-cancel.svg"
+import PlaceholderSvg from "../svg/icon-maintenance.svg"
 
 const Card = styled.div`
   width: 80%;

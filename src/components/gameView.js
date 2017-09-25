@@ -2,16 +2,16 @@ import React from "react"
 import styled, { injectGlobal, keyframes } from "styled-components"
 import QrReader from "react-qr-reader"
 
-import ScanIconSvg from "./icon-scan.svg"
-import ExitIconSvg from "./icon-exit.svg"
-import SwitchIconSvg from "./icon-switch.svg"
+import ScanIconSvg from "../svg/icon-scan.svg"
+import ExitIconSvg from "../svg/icon-exit.svg"
+import SwitchIconSvg from "../svg/icon-switch.svg"
 
 import Inventory from "./inventory"
 import ItemCard from "./itemCard"
 
 import Circle from "./circle"
 
-import data from "./data.json"
+import data from "../data.json"
 
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`

@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import Circle from "./circle"
+import ItemSlot from "./itemSlot"
 
 export const Container = styled.div`
   display: flex;
@@ -10,18 +10,6 @@ export const Container = styled.div`
   align-items: center;
   
   height: 100%;
-`
-
-const ItemSlot = styled(Circle)`
-  display: flex;
-  
-  justify-content: center;
-  align-items: center;
-
-  width: 25vw;
-  height: 25vw;
-
-  border: ${props => props.isSelected ? "3px solid black" : "1px solid black"};
 `
 
 export default ({ inventory, onItemSelect, selectedItem }) => {

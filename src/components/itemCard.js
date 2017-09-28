@@ -15,12 +15,11 @@ const Card = styled.div`
   justify-content: space-around;
 
   padding: 10px;
+  
+  background: white;
 
   border: 1px solid;  
   border-radius: 2%;
-  
-  background: white;
-  
   box-shadow: 5px 5px 22px -8px rgba(0,0,0,0.75);
   
   z-index: 1;
@@ -34,7 +33,7 @@ const Placeholder = styled(PlaceholderSvg)`
   width: 60vw;
   height: 60vw;
   
-  opacity: 50%;
+  opacity: 0.5;
 `
 
 const Description = styled.div`

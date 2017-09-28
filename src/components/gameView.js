@@ -8,6 +8,7 @@ import SwitchIconSvg from "../svg/icon-switch.svg"
 
 import Inventory from "./inventory"
 import ItemCard from "./itemCard"
+import ReadyDialog from "./readyDialog"
 
 import Circle from "./circle"
 
@@ -20,6 +21,7 @@ const Container = styled.div`
 const TopContainer = styled.div`
   display: flex;
   
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   
@@ -28,6 +30,8 @@ const TopContainer = styled.div`
 
 const BottomContainer = styled.div`
   display: flex;
+
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   
@@ -115,12 +119,13 @@ export default class GameView extends React.Component {
 
     this.state = {
       qrMode: false,
-      scannedItemId: "copper",
-      previewItemId: "copper",
+      scannedItemId: "hemp",
+      previewItemId: "hemp",
       selectedItemId: null,
+      finished: false,
       inventory: {
-        [this.quests[0]]: null,
-        [this.quests[1]]: null,
+        [this.quests[0]]: "oak",
+        [this.quests[1]]: "copper",
         [this.quests[2]]: null
       }
     }
@@ -128,6 +133,8 @@ export default class GameView extends React.Component {
     this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
     this.onItemTake = this.onItemTake.bind(this)
     this.onItemDiscard = this.onItemDiscard.bind(this)
+    this.onReadyConfirmed = this.onReadyConfirmed.bind(this)
+    this.onReadyDeclined = this.onReadyDeclined.bind(this)
   }
 
   render() {
@@ -139,6 +146,8 @@ export default class GameView extends React.Component {
     const collectedItemId = this.state.inventory[scannedQuestId]
 
     const selectedItemId = this.state.selectedItemId
+
+    const ready = this.completedQuests.length === this.quests.length
 
     return (
       <Container>
@@ -173,6 +182,9 @@ export default class GameView extends React.Component {
             inventory={ this.state.inventory }
             selectedItem={ this.state.selectedItemId }
             onItemSelect={ (item) => this.onItemSelect(item) } />
+          { this.state.finished && <div>All quest items collected.</div> }
+          { ready && !this.state.finished &&
+          <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
         </BottomContainer>
       </Container>
     )
@@ -212,6 +224,14 @@ export default class GameView extends React.Component {
     }
   }
 
+  onReadyConfirmed() {
+    this.setState({ finished: true })
+  }
+
+  onReadyDeclined() {
+    this.setState({ finished: false })
+  }
+
   switchItems(collectedItemId) {
     const previewItemId = this.state.previewItemId === this.state.scannedItemId
       ? collectedItemId
@@ -226,5 +246,13 @@ export default class GameView extends React.Component {
     )
 
     return questId
+  }
+
+  get completedQuests() {
+    const items = Object.entries(this.state.inventory)
+      .map((entry) => entry[1])
+      .filter(entry => entry !== null)
+
+    return items
   }
 }

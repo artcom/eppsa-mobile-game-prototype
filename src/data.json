@@ -4,15 +4,13 @@
     "description": "King Jellybean calls for building a ship. Therefore the king commands his servants to investigate the best shipbuilding techniques, tools and materials of all civilizations to create the best ship construction.",
     "players": [
       {
-        "name": "Rick",
-        "quests": ["material", "connectors", "protection"]
+        "questIds": ["material", "connectors", "protection"]
       },
       {
-        "name": "Morty",
-        "quests": ["ship-engine", "emergency", "food"]
+        "questIds": ["ship-engine", "emergency", "food"]
       }
     ],
-    "quests": {
+    "questIds": {
       "material": {
         "name": "Material",
         "description": "Find the most stable material for shipbuilding",

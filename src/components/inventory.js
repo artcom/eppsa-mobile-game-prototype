@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import ItemSlot from "./itemSlot"
+import { selectSharedContent } from "../selectContent"
 
 export const Container = styled.div`
   display: flex;
@@ -13,25 +14,25 @@ export const Container = styled.div`
 `
 
 export default ({ inventory, onItemSelect, selectedItem }) => {
-  const items = Object.entries(inventory).map((entry) => entry[1])
+  const { items } = selectSharedContent()
+
+  const entries = Object.entries(inventory)
 
   return (
     <Container>
-      <ItemSlot
-        isSelected={ selectedItem !== null && selectedItem === items[0] }
-        onClick={ () => onItemSelect(items[0]) } >
-        { items[0] }
-      </ItemSlot>
-      <ItemSlot
-        isSelected={ selectedItem !== null && selectedItem === items[1] }
-        onClick={ () => onItemSelect(items[1]) } >
-        { items[1] }
-      </ItemSlot>
-      <ItemSlot
-        isSelected={ selectedItem !== null && selectedItem === items[2] }
-        onClick={ () => onItemSelect(items[2]) } >
-        { items[2] }
-      </ItemSlot>
+      { entries.map(entry =>
+        <ItemSlot key={ entry[0] } isSelected={ selectedItem !== null && selectedItem === entry[1] }
+          onClick={ () => onItemSelect(entry[1]) } >
+          {
+            entry[1] && items[entry[1]].name
+            ||
+            <div>
+              <div>Quest:</div>
+              <div>{ entry[0] }</div>
+            </div>
+          }
+        </ItemSlot>
+      )}
     </Container>
   )
 }

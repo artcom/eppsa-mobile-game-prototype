@@ -111,14 +111,14 @@ const BackButton = styled(ExitIconSvg)`
 
 const devState = {
   qrMode: false,
-  scannedItemId: null,
-  previewItemId: null,
+  scannedItemId: "steel",
+  previewItemId: "steel",
   selectedItemId: null,
   selectedQuestId: null,
   finished: false,
   questItems: {
-    material: "teak",
-    connections: "steel",
+    material: null,
+    connectors: "steel",
     protection: "hemp"
   }
 }

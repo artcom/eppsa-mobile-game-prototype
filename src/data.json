@@ -74,7 +74,7 @@
       },
       "oak": {
         "name": "Oak",
-        "description": "Oak wood has a density of about 0.75 g/cm3 (0.43 oz/cu in) creating great strength and hardness. The wood is very resistant to insect and fungal attack because of its high tannin content. It also has very appealing grain markings, particularly when quartersawn. Oak planking was common on high status Viking longships in the 9th and 10th centuries."
+        "description": "Oak wood has a density of about 0.75 g/cm3 (0.43 oz/cu in) creating great strength and hardness. The wood is very resistant to insect and fungal attack because of its high tannin content. Oak planking was common on high status Viking longships in the 9th and 10th centuries."
       },
       "teak": {
         "name": "Teak",
@@ -102,7 +102,7 @@
       },
       "resin": {
         "name": "Resin",
-        "description": "Plant resins are valued for the production of varnishes, adhesives, and food glazing agents. They are also prized as raw materials for the synthesis of other organic compounds and provide constituents of incense and perfume. The oldest known use of plant resin comes from the late Middle Stone Age in Southern Africa where it was used as an adhesive for hafting stone tools."
+        "description": "Plant resins are valued for the production of varnishes, adhesives, and food glazing agents. They are also prized as raw materials for the synthesis of other organic compounds and provide constituents of incense and perfume."
       },
       "linen-sailcloth": {
         "name": "Linen Sailcloth",

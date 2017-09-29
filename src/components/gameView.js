@@ -9,11 +9,10 @@ import SwitchIconSvg from "../svg/icon-switch.svg"
 import { selectPlayerContent, selectSharedContent } from "../selectContent"
 import Inventory from "./inventory"
 import ItemCard from "./itemCard"
+import Quest from "./quest"
 import ReadyDialog from "./readyDialog"
 
 import Circle from "./circle"
-
-import data from "../data.json"
 
 const Container = styled.div`
   height: 100%;
@@ -110,18 +109,18 @@ const BackButton = styled(ExitIconSvg)`
   z-index: 1;
 `
 
-const devState = {
-  qrMode: false,
-  scannedItemId: "teak",
-  previewItemId: "teak",
-  selectedItemId: null,
-  finished: false,
-  questItems: {
-    material: "oak",
-    connections: "steel",
-    protection: null
-  }
-}
+const devState = null // {
+//   qrMode: false,
+//   scannedItemId: null,
+//   previewItemId: null,
+//   selectedItemId: null,
+//   finished: false,
+//   questItems: {
+//     material: null,
+//     connections: null,
+//     protection: null
+//   }
+// }
 
 export default class GameView extends React.Component {
   constructor() {
@@ -132,6 +131,7 @@ export default class GameView extends React.Component {
     const playerContent = selectPlayerContent(this.playerId)
 
     this.player = playerContent.player
+    this.quests = playerContent.playerQuests
     this.questIds = playerContent.playerQuestIds
     this.questItemIds = playerContent.playerQuestItemIds
 
@@ -141,6 +141,7 @@ export default class GameView extends React.Component {
       qrMode: false,
       scannedItemId: null,
       previewItemId: null,
+      selectedQuestId: null,
       selectedItemId: null,
       finished: false,
       questItems: this.questIds.reduce((obj, questId) => ({
@@ -164,6 +165,7 @@ export default class GameView extends React.Component {
 
     const collectedItemId = this.state.questItems[scannedQuestId]
 
+    const selectedQuestId = this.state.selectedQuestId
     const selectedItemId = this.state.selectedItemId
 
     const ready = this.completedQuests.length === this.questIds.length
@@ -174,7 +176,7 @@ export default class GameView extends React.Component {
           &&
           <ScannedItemCardContainer>
             <ItemCard
-              item={ data.game.items[previewItemId] }
+              item={ this.items[previewItemId] }
               onTake={ this.questItemIds.includes(previewItemId) && this.onItemTake }
               onDiscard={ collectedItemId !== previewItemId && this.onItemDiscard } />
             { collectedItemId && collectedItemId !== scannedItemId
@@ -183,7 +185,10 @@ export default class GameView extends React.Component {
               onClick={ () => this.switchItems(collectedItemId) } /> }
           </ScannedItemCardContainer> }
         <TopContainer>
-          { selectedItemId && <ItemCard item={ data.game.items[selectedItemId] } /> }
+          { selectedItemId &&
+            <ItemCard item={ this.items[selectedItemId] } /> }
+          { selectedQuestId && !selectedItemId &&
+            <Quest quest={ this.quests[selectedQuestId] } /> }
           { this.state.qrMode &&
             <QrReaderContainer>
               <BackButton onClick={ this.onQrButtonClicked } />
@@ -198,9 +203,11 @@ export default class GameView extends React.Component {
         </TopContainer>
         <BottomContainer>
           <Inventory
+            quests={ this.quests }
             inventory={ this.state.questItems }
-            selectedItem={ this.state.selectedItemId }
-            onItemSelect={ (item) => this.onItemSelect(item) } />
+            selectedItemId={ this.state.selectedItemId }
+            selectedQuestId={ this.state.selectedQuestId }
+            onSlotSelect={ (quest, item) => this.onSlotSelect(quest, item) } />
           { this.state.finished && <div>All quest items collected.</div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
@@ -210,7 +217,7 @@ export default class GameView extends React.Component {
   }
 
   handleQrResult(scannedItemId) {
-    if (data.game.items[scannedItemId]) {
+    if (this.items[scannedItemId]) {
       this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
     }
   }
@@ -235,11 +242,11 @@ export default class GameView extends React.Component {
     this.setState({ scannedItemId: null, previewItemId: null })
   }
 
-  onItemSelect(item) {
-    if (item === this.state.selectedItemId) {
-      this.setState({ selectedItemId: null })
+  onSlotSelect(questId, itemId) {
+    if (questId === this.state.selectedQuestId) {
+      this.setState({ selectedQuestId: null, selectedItemId: null })
     } else {
-      this.setState({ selectedItemId: item })
+      this.setState({ selectedQuestId: questId, selectedItemId: itemId })
     }
   }
 

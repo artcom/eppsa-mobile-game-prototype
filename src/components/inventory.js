@@ -13,26 +13,32 @@ export const Container = styled.div`
   height: 100%;
 `
 
-export default ({ inventory, onItemSelect, selectedItem }) => {
+export default ({ inventory, onSlotSelect, quests, selectedQuestId, selectedItemId }) => {
   const { items } = selectSharedContent()
 
   const entries = Object.entries(inventory)
 
   return (
     <Container>
-      { entries.map(entry =>
-        <ItemSlot key={ entry[0] } isSelected={ selectedItem !== null && selectedItem === entry[1] }
-          onClick={ () => onItemSelect(entry[1]) } >
-          {
-            entry[1] && items[entry[1]].name
-            ||
-            <div>
-              <div>Quest:</div>
-              <div>{ entry[0] }</div>
-            </div>
-          }
-        </ItemSlot>
-      )}
+      { entries.map(entry => {
+        const [questId, itemId] = entry
+
+        return (
+          <ItemSlot
+            key={ questId }
+            isItemSelected={ selectedItemId !== null && selectedItemId === itemId }
+            isQuestSelected={ selectedQuestId !== null && selectedQuestId === questId }
+            onClick={ () => onSlotSelect(questId, itemId) }>
+            {
+              itemId && <span>{ items[itemId].name }</span>
+              ||
+              <div>
+                <div>{ quests[questId].name }</div>
+              </div>
+            }
+          </ItemSlot>
+        )
+      })}
     </Container>
   )
 }

@@ -15,9 +15,11 @@ const Container = styled(Circle)`
   width: 25vw;
   height: 25vw;
 
-  border: ${props => props.isSelected ? "3px solid black" : "1px solid black"};
+  border: ${props =>
+    props.isItemSelected || props.isQuestSelected ? "3px solid black" : "1px solid black"};
   
-  box-shadow: ${props => props.isSelected ? "5px 5px 22px -8px rgba(0,0,0,0.75);" : "none"};
+  box-shadow: ${props =>
+    props.isItemSelected || props.isQuestSelected ? "5px 5px 22px -8px rgba(0,0,0,0.75);" : "none"};
 `
 
 const Content = styled.div`
@@ -27,7 +29,7 @@ const Content = styled.div`
 export default function ItemSlot(props) {
   return (
     <Container { ...props } >
-      <Wave visible={ props.isSelected } />
+      <Wave visible={ props.isQuestSelected || props.isItemSelected } />
       <Content>{ props.children }</Content>
     </Container>
   )

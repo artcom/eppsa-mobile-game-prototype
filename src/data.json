@@ -10,7 +10,7 @@
         "questIds": ["ship-engine", "emergency", "food"]
       }
     ],
-    "questIds": {
+    "quests": {
       "material": {
         "name": "Material",
         "description": "Find the most stable material for shipbuilding",

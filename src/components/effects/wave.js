@@ -32,8 +32,6 @@ const Wave = styled.div`
     `};
   
   background: gainsboro;
-  
-  z-index: -1;
 `
 
 export default function(props) {

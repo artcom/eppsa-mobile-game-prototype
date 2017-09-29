@@ -16,6 +16,9 @@ import Circle from "./circle"
 
 const Container = styled.div`
   height: 100%;
+  width: 100%;
+  
+  position: absolute;
 `
 
 const TopContainer = styled.div`
@@ -40,6 +43,8 @@ const BottomContainer = styled.div`
 
 const ScannedItemCardContainer = styled.div`
   position: absolute;
+  top: 0;
+  left: 0;
 
   display: flex;
   flex-direction: column;
@@ -61,8 +66,6 @@ const SwitchItemButton = styled(SwitchIconSvg)`
 
   width: 15vw;
   height: 15vw;
-  
-  z-index: 1;
 `
 
 const CircleButton = styled(Circle)`
@@ -105,8 +108,6 @@ const BackButton = styled(ExitIconSvg)`
   
   width: 15vw;
   height: 15vw;
-  
-  z-index: 1;
 `
 
 const devState = {
@@ -173,18 +174,6 @@ export default class GameView extends React.Component {
 
     return (
       <Container>
-        { previewItemId
-          &&
-          <ScannedItemCardContainer>
-            <ItemCard
-              item={ this.items[previewItemId] }
-              onTake={ this.questItemIds.includes(previewItemId) && this.onItemTake }
-              onDiscard={ collectedItemId !== previewItemId && this.onItemDiscard } />
-            { collectedItemId && collectedItemId !== scannedItemId
-            &&
-            <SwitchItemButton
-              onClick={ () => this.switchItems(collectedItemId) } /> }
-          </ScannedItemCardContainer> }
         <TopContainer>
           { selectedItemId &&
             <ItemCard item={ this.items[selectedItemId] } /> }
@@ -213,6 +202,18 @@ export default class GameView extends React.Component {
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
         </BottomContainer>
+        { previewItemId
+        &&
+        <ScannedItemCardContainer>
+          <ItemCard
+            item={ this.items[previewItemId] }
+            onTake={ this.questItemIds.includes(previewItemId) && this.onItemTake }
+            onDiscard={ collectedItemId !== previewItemId && this.onItemDiscard } />
+          { collectedItemId && collectedItemId !== scannedItemId
+          &&
+          <SwitchItemButton
+            onClick={ () => this.switchItems(collectedItemId) } /> }
+        </ScannedItemCardContainer> }
       </Container>
     )
   }

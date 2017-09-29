@@ -21,8 +21,6 @@ const Card = styled.div`
   border: 1px solid;  
   border-radius: 2%;
   box-shadow: 5px 5px 22px -8px rgba(0,0,0,0.75);
-  
-  z-index: 1;
 `
 
 const Name = styled.div`

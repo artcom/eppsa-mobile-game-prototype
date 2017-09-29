@@ -114,8 +114,8 @@ const BackButton = styled(ExitIconSvg)`
 
 const devState = {
   qrMode: false,
-  scannedItemId: "steel",
-  previewItemId: "steel",
+  scannedItemId: "oak",
+  previewItemId: "oak",
   selectedItemId: null,
   selectedQuestId: null,
   finished: false,
@@ -190,8 +190,10 @@ export default class GameView extends React.Component {
                 onScan={ (scannedItemId) => this.handleQrResult(scannedItemId) }
                 style={ { width: "100%" } } />
             </QrReaderContainer> }
-          { !this.state.qrMode && !selectedItemId &&
+          { !this.state.qrMode && !selectedItemId && !this.state.finished &&
             <CircleButton onClick={ this.onQrButtonClicked }><ScanIcon /></CircleButton> }
+          { this.state.finished && !selectedItemId &&
+            <div>Meet your partner to build a ship together.</div> }
         </TopContainer>
         <BottomContainer>
           <Inventory
@@ -239,7 +241,12 @@ export default class GameView extends React.Component {
 
     questItems[questId] = itemId
 
-    this.setState({ scannedItemId: null, previewItemId: null, questItems })
+    this.setState({
+      scannedItemId: null,
+      previewItemId: null,
+      selectedItemId: itemId,
+      questItems
+    })
   }
 
   onItemDiscard() {

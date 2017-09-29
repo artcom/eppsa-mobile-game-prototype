@@ -108,6 +108,8 @@ const BackButton = styled(ExitIconSvg)`
   
   width: 15vw;
   height: 15vw;
+  
+  z-index: 1;
 `
 
 const devState = {

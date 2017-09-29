@@ -37,6 +37,8 @@ const Placeholder = styled(PlaceholderSvg)`
 const Description = styled.div`
   width: 70vw;
   max-height: 30%;
+  
+  font-size: 14px;
     
   text-align: center;
     

@@ -109,18 +109,19 @@ const BackButton = styled(ExitIconSvg)`
   z-index: 1;
 `
 
-const devState = null // {
-//   qrMode: false,
-//   scannedItemId: null,
-//   previewItemId: null,
-//   selectedItemId: null,
-//   finished: false,
-//   questItems: {
-//     material: null,
-//     connections: null,
-//     protection: null
-//   }
-// }
+const devState = {
+  qrMode: false,
+  scannedItemId: null,
+  previewItemId: null,
+  selectedItemId: null,
+  selectedQuestId: null,
+  finished: false,
+  questItems: {
+    material: "teak",
+    connections: "steel",
+    protection: "hemp"
+  }
+}
 
 export default class GameView extends React.Component {
   constructor() {

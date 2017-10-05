@@ -34,10 +34,7 @@ const Wave = styled.div`
   background: gainsboro;
 `
 
-export default function(props) {
-  return (
-    <Container>
-      <Wave visible={ props.visible } />
-    </Container>
-  )
-}
+export default (props) =>
+  <Container>
+    <Wave visible={ props.visible } />
+  </Container>

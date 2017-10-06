@@ -9,4 +9,4 @@ import registerServiceWorker from "./registerServiceWorker"
 ReactDOM.render(<App />, document.getElementById("root"))
 registerServiceWorker()
 
-const socket = client("https://localhost:5000", { secure: true })
+const socket = client("https://localhost:5000/", { secure: true })

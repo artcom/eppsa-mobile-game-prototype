@@ -30,6 +30,11 @@ socket.on("connection", (socket) => {
     console.log("User disconnected")
     clearInterval(timeInterval)
   })
+
+  socket.on("item", data => {
+    console.log(`${socket.id} scanned ${data.item}`)
+  })
+
 })
 
 

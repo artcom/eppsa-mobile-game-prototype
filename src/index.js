@@ -6,9 +6,9 @@ import client from "socket.io-client"
 import App from "./App"
 import registerServiceWorker from "./registerServiceWorker"
 
-ReactDOM.render(<App />, document.getElementById("root"))
-registerServiceWorker()
-
 const socket = client("https://eppsa.dev:5000/", { secure: true })
+
+ReactDOM.render(<App socket = { socket } />, document.getElementById("root"))
+registerServiceWorker()
 
 socket.on("time", data => console.log(data.time.toLocaleString()))

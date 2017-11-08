@@ -17,6 +17,6 @@ injectGlobal`
   }
 `
 
-export default function App() {
-  return <GameView />
+export default function App({ socket }) {
+  return <GameView socket={ socket } />
 }

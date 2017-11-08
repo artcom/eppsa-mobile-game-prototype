@@ -9,4 +9,6 @@ import registerServiceWorker from "./registerServiceWorker"
 ReactDOM.render(<App />, document.getElementById("root"))
 registerServiceWorker()
 
-const socket = client("https://localhost:5000/", { secure: true })
+const socket = client("https://eppsa.dev:5000/", { secure: true })
+
+socket.on("time", data => console.log(data.time.toLocaleString()))

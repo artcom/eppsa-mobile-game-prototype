@@ -6,9 +6,10 @@ const https = require("https")
 const socketIO = require("socket.io")
 
 const options = {
-  key: fs.readFileSync(`${__dirname}/file.pem`, "utf8"),
-  cert: fs.readFileSync(`${__dirname}/file.crt`, "utf8")
+  key: fs.readFileSync(`${__dirname}/../../ssl/ssl.key`, "utf8"),
+  cert: fs.readFileSync(`${__dirname}/../../ssl/ssl.crt`, "utf8")
 }
+
 
 const app = express()
 const server = https.createServer(options, app)
@@ -21,8 +22,13 @@ app.get("/", (req, res) => {
 socket.on("connection", (socket) => {
   console.log("A user connected.")
 
+  const timeInterval = setInterval(() => {
+    socket.emit("time", { time: new Date() })
+  }, 1000)
+
   socket.on("disconnect", () => {
     console.log("User disconnected")
+    clearInterval(timeInterval)
   })
 })
 

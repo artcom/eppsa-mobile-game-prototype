@@ -4,6 +4,7 @@ const errorOverlayMiddleware = require('react-error-overlay/middleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 const config = require('./webpack.config.dev');
 const paths = require('./paths');
+const fs = require("fs")
 
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
@@ -68,7 +69,10 @@ module.exports = function(proxy, allowedHost) {
       ignored: /node_modules/,
     },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'
-    https: protocol === 'https',
+    https: {
+      key: fs.readFileSync(`${__dirname}/../ssl/ssl.key`, "utf8"),
+      cert: fs.readFileSync(`${__dirname}/../ssl/ssl.crt`, "utf8")
+    },
     host: host,
     overlay: false,
     historyApiFallback: {

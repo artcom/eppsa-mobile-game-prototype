@@ -112,7 +112,7 @@ const BackButton = styled(ExitIconSvg)`
   z-index: 1;
 `
 
-const devState = {
+const devState = null /* {
   qrMode: false,
   scannedItemId: "oak",
   previewItemId: "oak",
@@ -124,22 +124,15 @@ const devState = {
     connectors: "steel",
     protection: "hemp"
   }
-}
+}*/
 
 export default class GameView extends React.Component {
-  constructor() {
+  constructor({ socket }) {
     super()
 
-    this.playerId = 0
-
-    const playerContent = selectPlayerContent(this.playerId)
-
-    this.player = playerContent.player
-    this.quests = playerContent.playerQuests
-    this.questIds = playerContent.playerQuestIds
-    this.questItemIds = playerContent.playerQuestItemIds
-
-    this.items = selectSharedContent().items
+    socket.on("init", data => {
+      this.init(data)
+    })
 
     this.state = devState || {
       qrMode: false,
@@ -148,11 +141,10 @@ export default class GameView extends React.Component {
       selectedQuestId: null,
       selectedItemId: null,
       finished: false,
-      questItems: this.questIds.reduce((obj, questId) => ({
-        ...obj,
-        [questId]: null
-      }), {})
+      questItems: {}
     }
+
+    this.questIds = []
 
     this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
     this.onItemTake = this.onItemTake.bind(this)
@@ -172,7 +164,9 @@ export default class GameView extends React.Component {
     const selectedQuestId = this.state.selectedQuestId
     const selectedItemId = this.state.selectedItemId
 
-    const ready = this.completedQuests.length === this.questIds.length
+    const ready =
+      this.completedQuests.length === this.questIds.length
+      && this.questIds.length !== 0
 
     return (
       <Container>
@@ -284,5 +278,31 @@ export default class GameView extends React.Component {
       .filter(entry => entry !== null)
 
     return items
+  }
+
+  init(data) {
+    this.playerId = data.id
+
+    const playerContent = selectPlayerContent(this.playerId)
+
+    this.player = playerContent.player
+    this.quests = playerContent.playerQuests
+    this.questIds = playerContent.playerQuestIds
+    this.questItemIds = playerContent.playerQuestItemIds
+
+    this.items = selectSharedContent().items
+
+    this.setState({
+      qrMode: false,
+      scannedItemId: null,
+      previewItemId: null,
+      selectedQuestId: null,
+      selectedItemId: null,
+      finished: false,
+      questItems: this.questIds.reduce((obj, questId) => ({
+        ...obj,
+        [questId]: null
+      }), {})
+    })
   }
 }

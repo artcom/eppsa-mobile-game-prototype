@@ -40,9 +40,22 @@ io.on("connection", (socket) => {
     })
   })
 
-  socket.on("playWith", data => {
-    socket.to(data.player).emit("playRequest", { player: socket.id })
-    console.log(`${socket.id} wants to play with ${data.player}`)
+  socket.on("play", ({ mode, player }) => {
+    switch (mode) {
+      case "playSolo":
+        console.log(`${socket.id} wants to play solo`)
+
+        break
+      case "playRnd":
+        console.log(`${socket.id} wants to play with rnd`)
+
+        break
+      case "playWith":
+        socket.to(player).emit("playRequest", { player: socket.id })
+        console.log(`${socket.id} wants to play with ${player}`)
+
+        break
+    }
   })
 
   socket.on("item", data => {

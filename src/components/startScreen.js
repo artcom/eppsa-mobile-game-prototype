@@ -18,6 +18,8 @@ const Head = styled.div`
   width: 75%;
   height: 25%;
   
+  overflow-y: scroll;
+  
   text-align: justify;
   
 `
@@ -75,14 +77,20 @@ export default class StartScreen extends React.Component {
           <br />
           {this.state.game.description}
         </Head>
-        <PlaySolo>PlaySolo</PlaySolo>
-        <PlayRnd>PlayRnd</PlayRnd>
+        <PlaySolo
+          onClick={ () => this.play("playSolo", null) }>
+          PlaySolo
+        </PlaySolo>
+        <PlayRnd
+          onClick={ () => this.play("playRnd", null) }>
+          PlayRnd
+        </PlayRnd>
         <PlayWith>PlayWith
           {
             this.state.waitingPlayers.map(
               player =>
                 <div
-                  onClick={ () => this.playWith(player) }
+                  onClick={ () => this.play("playWith", player) }
                   key={ player }>
                   {player}
                 </div>
@@ -93,7 +101,7 @@ export default class StartScreen extends React.Component {
     )
   }
 
-  playWith(player) {
-    this.props.socket.emit("playWith", { player })
+  play(mode, player) {
+    this.props.socket.emit("play", { mode, player })
   }
 }

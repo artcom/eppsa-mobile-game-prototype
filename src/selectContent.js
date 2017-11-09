@@ -32,6 +32,8 @@ export const selectSharedContent = memoize(() => {
   ))
 
   return {
+    name: data.game.name,
+    description: data.game.description,
     items
   }
 })

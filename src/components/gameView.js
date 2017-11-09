@@ -134,6 +134,10 @@ export default class GameView extends React.Component {
       this.init(data)
     })
 
+    socket.on("partnerJoined", data => {
+      this.setState({ partnerID: data.partnerID })
+    })
+
     this.state = devState || {
       qrMode: false,
       scannedItemId: null,
@@ -141,7 +145,8 @@ export default class GameView extends React.Component {
       selectedQuestId: null,
       selectedItemId: null,
       finished: false,
-      questItems: {}
+      questItems: {},
+      partnerID: null
     }
 
     this.questIds = []
@@ -199,6 +204,8 @@ export default class GameView extends React.Component {
           { this.state.finished && <div>All quest items collected.</div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
+          {this.props.socket.id && <div> PlayerID: { this.props.socket.id } </div>}
+          {this.state.partnerID && <div> PartnerID: { this.state.partnerID } </div>}
         </BottomContainer>
         { previewItemId
         &&
@@ -302,7 +309,8 @@ export default class GameView extends React.Component {
       questItems: this.questIds.reduce((obj, questId) => ({
         ...obj,
         [questId]: null
-      }), {})
+      }), {}),
+      partnerID: data.partnerID
     })
   }
 }

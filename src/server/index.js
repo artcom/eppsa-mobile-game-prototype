@@ -12,51 +12,32 @@ const options = {
 
 const app = express()
 const server = https.createServer(options, app)
-const socket = socketIO(server)
+const io = socketIO(server)
 
 const runningLobbys = []
-const waitingLobbys = []
+const waitingPlayers = []
 
 app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
-socket.on("connection", (socket) => {
+io.on("connection", (socket) => {
   console.log("A user connected.")
 
-  let lobby
+  waitingPlayers.push(socket.id)
 
-  if (waitingLobbys.length > 0) {
-    waitingLobbys[0].push(socket.id)
-    lobby = waitingLobbys[0]
-    if (waitingLobbys[0].length === 2) {
-      runningLobbys.push(waitingLobbys.shift())
-    }
-  } else {
-    lobby = [socket.id]
-    waitingLobbys.push(lobby)
-  }
-
-  console.log(`running:\t${JSON.stringify(runningLobbys)}`)
-  console.log(`waiting:\t${JSON.stringify(waitingLobbys)}`)
-  console.log(`lobby:  \t${JSON.stringify(lobby)}`)
-
-  socket.emit("init", { id: lobby.indexOf(socket.id) })
-
-  const timeInterval = setInterval(() => {
-    socket.emit("time", { time: new Date() })
-  }, 1000)
+  io.emit("players", {
+    waitingPlayers
+  })
 
   socket.on("disconnect", () => {
     console.log("User disconnected")
 
-    /*
-    if (waitingLobbys.indexOf(lobby) >= 0) {
-      waitingLobbys.splice(waitingLobbys.indexOf(lobby), 1)
-    }
-    */
+    waitingPlayers.splice(waitingPlayers.indexOf(socket.id), 1)
 
-    clearInterval(timeInterval)
+    io.emit("players", {
+      waitingPlayers
+    })
   })
 
   socket.on("item", data => {

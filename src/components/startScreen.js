@@ -61,6 +61,10 @@ export default class StartScreen extends React.Component {
         waitingPlayers
       })
     })
+
+    socket.on("playRequest", data => {
+      console.log(`${data.player} wants to play with you`)
+    })
   }
 
   render() {
@@ -75,10 +79,21 @@ export default class StartScreen extends React.Component {
         <PlayRnd>PlayRnd</PlayRnd>
         <PlayWith>PlayWith
           {
-            this.state.waitingPlayers.map(player => <div key={ player }> {player} </div>)
+            this.state.waitingPlayers.map(
+              player =>
+                <div
+                  onClick={ () => this.playWith(player) }
+                  key={ player }>
+                  {player}
+                </div>
+            )
           }
         </PlayWith>
       </Container>
     )
+  }
+
+  playWith(player) {
+    this.props.socket.emit("playWith", { player })
   }
 }

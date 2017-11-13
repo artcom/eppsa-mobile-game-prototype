@@ -23,7 +23,19 @@ const Head = styled.div`
 `
 
 const Name = styled.input`
-
+  
+  &::placeholder{
+    color: grey;
+  }
+  
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 16px;
+  
+  border-top: solid 2px;
+  border-bottom: solid 2px;
+  border-left: hidden;
+  border-right: hidden;
 `
 
 const PlaySolo = styled.div`
@@ -83,7 +95,8 @@ export default class StartScreen extends React.Component {
 
     server.on("init", player => {
       this.setState({
-        player
+        player,
+        givenName: player.name
       })
     })
 
@@ -116,10 +129,11 @@ export default class StartScreen extends React.Component {
           </PlayRequest>
         }
         <Head>
-          Hallo
+            Dear,
           <Name
+            type="text"
             placeholder= { this.state.player.name }
-            onKeyUp={ event => { this.server.setName(event.target.value) } } /><br />
+            onChange={ event => { this.setName(event) } } /><br />
           <br />
           {this.state.game.description}
         </Head>
@@ -145,6 +159,14 @@ export default class StartScreen extends React.Component {
         </PlayWith>
       </Container>
     )
+  }
+
+  setName(event) {
+    const name = event.target.value.trim().substr(0, 25) || this.state.givenName
+
+    // eslint-disable-next-line
+    event.target.value = name
+    this.server.setName(name)
   }
 
   isSamePlayer(otherPlayer) {

@@ -38,6 +38,33 @@ const PlayWith = styled.div`
   height: 50%;
 `
 
+const PlayRequest = styled.div`
+  width: 100%;
+  height: 100%;
+  
+  text-align: center;
+  vertical-align: middle;
+  
+  background-color: rgba(0,0,0,0.56);
+   
+  position: absolute;
+  
+  display: flex;
+  flex-flow: row nowrap;
+  
+  align-items: center;
+  justify-content: center;
+  
+`
+
+const PlayRequestText = styled.div`
+  width: 75%;
+  height: 15%;
+  
+  background-color: rgb(29,238,165);
+  
+`
+
 export default class StartScreen extends React.Component {
   constructor({ server }) {
     super()
@@ -77,6 +104,15 @@ export default class StartScreen extends React.Component {
   render() {
     return (
       <Container>
+        {
+          this.state.requestingPlayer &&
+          <PlayRequest
+            onClick= { () => this.hidePlayRequest() }>
+            <PlayRequestText>
+              {this.state.requestingPlayer} wants to play with you
+            </PlayRequestText>
+          </PlayRequest>
+        }
         <Head>
           Hallo {this.state.name} <br />
           <br />
@@ -104,5 +140,11 @@ export default class StartScreen extends React.Component {
         </PlayWith>
       </Container>
     )
+  }
+
+  hidePlayRequest() {
+    this.setState({
+      requestingPlayer: null
+    })
   }
 }

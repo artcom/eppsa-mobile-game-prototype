@@ -1,8 +1,8 @@
 import styled, { injectGlobal } from "styled-components"
 
 import React from "react"
-import GameView from "./components/gameView"
-import StartScreen from "./components/startScreen"
+import GameView from "./gameView"
+import StartScreen from "./startScreen"
 
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`
@@ -26,10 +26,10 @@ const Container = styled.div`
 `
 
 export default class App extends React.Component {
-  constructor({ socket }) {
+  constructor({ server }) {
     super()
 
-    this.socket = socket
+    this.server = server
 
     this.state = {
       matched: false
@@ -41,8 +41,8 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        {matched && <GameView socket={ this.socket } />}
-        {!matched && <StartScreen socket={ this.socket } />}
+        {matched && <GameView server={ this.server } />}
+        {!matched && <StartScreen server={ this.server } />}
       </Container>
     )
   }

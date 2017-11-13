@@ -1,14 +1,13 @@
-/* eslint-disable no-unused-vars,import/no-extraneous-dependencies */
 import React from "react"
 import ReactDOM from "react-dom"
-import client from "socket.io-client"
 
-import App from "./App"
+import App from "./components/app"
+import Server from "./api/serverApi"
 import registerServiceWorker from "./registerServiceWorker"
 
-const socket = client("https://eppsa.dev:5000/", { secure: true })
+ReactDOM.render(
+  <App server = { new Server(window.location.hostname) } />,
+  document.getElementById("root")
+)
 
-ReactDOM.render(<App socket = { socket } />, document.getElementById("root"))
 registerServiceWorker()
-
-socket.on("time", data => console.log(data.time.toLocaleString()))

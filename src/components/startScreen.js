@@ -2,7 +2,6 @@ import styled from "styled-components"
 import React from "react"
 import { selectSharedContent } from "../selectContent"
 
-
 const Container = styled.div`
   height: 100%;
   width: 100%;
@@ -40,31 +39,37 @@ const PlayWith = styled.div`
 `
 
 export default class StartScreen extends React.Component {
-  constructor({ socket }) {
+  constructor({ server }) {
     super()
 
+    this.server = server
+
     this.state = {
-      name: socket.id,
+      name: server.id,
       game: selectSharedContent(),
-      waitingPlayers: []
+      waitingPlayers: [],
+      requestingPlayer: null
     }
 
-    socket.on("connect", () => {
+    server.on("connect", () => {
       this.setState({
-        name: socket.id
+        name: server.id
       })
     })
 
-    socket.on("players", data => {
+    server.on("players", data => {
       const waitingPlayers = data.waitingPlayers
-      waitingPlayers.splice(waitingPlayers.indexOf(socket.id), 1)
+      waitingPlayers.splice(waitingPlayers.indexOf(server.id), 1)
 
       this.setState({
         waitingPlayers
       })
     })
 
-    socket.on("playRequest", data => {
+    server.on("playRequest", data => {
+      this.setState({
+        requestingPlayer: data.player
+      })
       console.log(`${data.player} wants to play with you`)
     })
   }
@@ -78,11 +83,11 @@ export default class StartScreen extends React.Component {
           {this.state.game.description}
         </Head>
         <PlaySolo
-          onClick={ () => this.play("playSolo", null) }>
+          onClick={ () => this.server.playSolo() }>
           PlaySolo
         </PlaySolo>
         <PlayRnd
-          onClick={ () => this.play("playRnd", null) }>
+          onClick={ () => this.server.playRandom() }>
           PlayRnd
         </PlayRnd>
         <PlayWith>PlayWith
@@ -90,7 +95,7 @@ export default class StartScreen extends React.Component {
             this.state.waitingPlayers.map(
               player =>
                 <div
-                  onClick={ () => this.play("playWith", player) }
+                  onClick={ () => this.server.playWith(player) }
                   key={ player }>
                   {player}
                 </div>
@@ -99,9 +104,5 @@ export default class StartScreen extends React.Component {
         </PlayWith>
       </Container>
     )
-  }
-
-  play(mode, player) {
-    this.props.socket.emit("play", { mode, player })
   }
 }

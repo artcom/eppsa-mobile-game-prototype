@@ -127,14 +127,14 @@ const devState = null /* {
 }*/
 
 export default class GameView extends React.Component {
-  constructor({ socket }) {
+  constructor({ server }) {
     super()
 
-    socket.on("init", data => {
+    server.on("init", data => {
       this.init(data)
     })
 
-    socket.on("partnerJoined", data => {
+    server.on("partnerJoined", data => {
       this.setState({ partnerID: data.partnerID })
     })
 
@@ -226,7 +226,7 @@ export default class GameView extends React.Component {
   handleQrResult(scannedItemId) {
     if (this.items[scannedItemId]) {
       this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
-      this.props.socket.emit("item", { item: scannedItemId })
+      this.props.server.emit("item", { item: scannedItemId })
     }
   }
 

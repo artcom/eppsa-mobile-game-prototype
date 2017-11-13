@@ -10,6 +10,10 @@ export default class ServerApi {
     return this.socket.id
   }
 
+  setName(name) {
+    this.socket.emit("setName", name)
+  }
+
   playSolo() {
     this.socket.emit("playSolo")
   }

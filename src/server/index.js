@@ -62,6 +62,11 @@ io.on("connection", (socket) => {
     console.log(`${socket.id} wants to play with ${player}`)
   })
 
+  socket.on("setName", name => {
+    player.name = name
+    io.emit("players", waitingPlayers)
+  })
+
   socket.on("itemScanned", item => {
     console.log(`${socket.id} scanned ${item}`)
   })

@@ -20,7 +20,10 @@ const Head = styled.div`
   overflow-y: scroll;
   
   text-align: justify;
-  
+`
+
+const Name = styled.input`
+
 `
 
 const PlaySolo = styled.div`
@@ -113,7 +116,10 @@ export default class StartScreen extends React.Component {
           </PlayRequest>
         }
         <Head>
-          Hallo {this.state.name} <br />
+          Hallo
+          <Name
+            placeholder= { this.state.player.name }
+            onKeyUp={ event => { this.server.setName(event.target.value) } } /><br />
           <br />
           {this.state.game.description}
         </Head>

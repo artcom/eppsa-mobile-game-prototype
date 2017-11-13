@@ -72,21 +72,20 @@ export default class StartScreen extends React.Component {
     this.server = server
 
     this.state = {
-      name: server.id,
+      player: {},
       game: selectSharedContent(),
       waitingPlayers: [],
       requestingPlayer: null
     }
 
-    server.on("connect", () => {
+    server.on("init", player => {
       this.setState({
-        name: server.id
+        player
       })
     })
 
-    server.on("players", data => {
-      const waitingPlayers = data.waitingPlayers
-      waitingPlayers.splice(waitingPlayers.indexOf(server.id), 1)
+    server.on("players", waitingPlayers => {
+      waitingPlayers.splice(waitingPlayers.findIndex(player => this.isSamePlayer(player)), 1)
 
       this.setState({
         waitingPlayers
@@ -131,15 +130,19 @@ export default class StartScreen extends React.Component {
             this.state.waitingPlayers.map(
               player =>
                 <div
-                  onClick={ () => this.server.playWith(player) }
-                  key={ player }>
-                  {player}
+                  onClick={ () => this.server.playWith(player.id) }
+                  key={ player.id }>
+                  {player.name}
                 </div>
             )
           }
         </PlayWith>
       </Container>
     )
+  }
+
+  isSamePlayer(otherPlayer) {
+    return otherPlayer.id === this.state.player.id
   }
 
   hidePlayRequest() {

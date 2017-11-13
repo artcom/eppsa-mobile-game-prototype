@@ -57,9 +57,9 @@ io.on("connection", (socket) => {
 
   socket.on("playRandom", () => console.log(`${socket.id} wants to play with random player`))
 
-  socket.on("playWith", player => {
-    socket.to(player).emit("playRequest", { player: socket.id })
-    console.log(`${socket.id} wants to play with ${player}`)
+  socket.on("playWith", targetPlayer => {
+    socket.to(targetPlayer.id).emit("playRequest", player)
+    console.log(`${player.id} wants to play with ${targetPlayer.id}`)
   })
 
   socket.on("setName", name => {

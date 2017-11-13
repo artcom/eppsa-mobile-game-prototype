@@ -8,6 +8,7 @@ const Container = styled.div`
   
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
   align-items: center;
   
   position: absolute;
@@ -15,11 +16,13 @@ const Container = styled.div`
 
 const Head = styled.div`
   width: 75%;
-  height: 25%;
+  height: 30%;
   
   overflow-y: scroll;
   
   text-align: justify;
+  
+  border: solid 2px red;
 `
 
 const Name = styled.input`
@@ -38,22 +41,40 @@ const Name = styled.input`
   border-right: hidden;
 `
 
-const PlaySolo = styled.div`
+const PlayWith = styled.div`
   width: 75%;
-  height: 12.5%;
+  height: 50%;
+  
+  overflow-y: scroll;
+  
+  border: solid 2px red;
+  border-top: none;
+`
+
+const Player = styled.div`
+  height: 6vh;
+
+  border: solid 2px orange;
+  border-top: none;
+  
+  &:first-child{
+    border-top: solid 2px orange;
+  }
 `
 
 const PlayRnd = styled.div`
   width: 75%;
   height: 12.5%;
-`
-
-const PlayWith = styled.div`
-  width: 75%;
-  height: 50%;
+  
+  border: solid 2px red;
+  border-top: none;
 `
 
 const PlayRequest = styled.div`
+   
+  position: absolute;
+  top: 0px;
+  
   width: 100%;
   height: 100%;
   
@@ -61,11 +82,9 @@ const PlayRequest = styled.div`
   vertical-align: middle;
   
   background-color: rgba(0,0,0,0.56);
-   
-  position: absolute;
   
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   
   align-items: center;
   justify-content: center;
@@ -90,7 +109,8 @@ export default class StartScreen extends React.Component {
       player: {},
       game: selectSharedContent(),
       waitingPlayers: [],
-      requestingPlayer: null
+      requestFrom: null,
+      requestTo: null
     }
 
     server.on("init", player => {
@@ -108,11 +128,11 @@ export default class StartScreen extends React.Component {
       })
     })
 
-    server.on("playRequest", data => {
+    server.on("playRequest", player => {
       this.setState({
-        requestingPlayer: data.player
+        requestFrom: player.name
       })
-      console.log(`${data.player} wants to play with you`)
+      console.log(`${player.id} wants to play with you`)
     })
   }
 
@@ -120,11 +140,12 @@ export default class StartScreen extends React.Component {
     return (
       <Container>
         {
-          this.state.requestingPlayer &&
+          (this.state.requestFrom || this.state.requestTo) &&
           <PlayRequest
             onClick= { () => this.hidePlayRequest() }>
             <PlayRequestText>
-              {this.state.requestingPlayer} wants to play with you
+              {this.state.requestFrom && `${this.state.requestFrom} wants to play with you`}
+              {this.state.requestTo && `you requested to play with ${this.state.requestTo}`}
             </PlayRequestText>
           </PlayRequest>
         }
@@ -137,26 +158,22 @@ export default class StartScreen extends React.Component {
           <br />
           {this.state.game.description}
         </Head>
-        <PlaySolo
-          onClick={ () => this.server.playSolo() }>
-          PlaySolo
-        </PlaySolo>
-        <PlayRnd
-          onClick={ () => this.server.playRandom() }>
-          PlayRnd
-        </PlayRnd>
-        <PlayWith>PlayWith
+        <PlayWith>Play With
           {
             this.state.waitingPlayers.map(
               player =>
-                <div
-                  onClick={ () => this.server.playWith(player.id) }
+                <Player
+                  onClick={ () => this.requestToPlay(player) }
                   key={ player.id }>
                   {player.name}
-                </div>
+                </Player>
             )
           }
         </PlayWith>
+        <PlayRnd
+          onClick={ () => this.server.playRandom() }>
+          Play With Random Player
+        </PlayRnd>
       </Container>
     )
   }
@@ -175,7 +192,15 @@ export default class StartScreen extends React.Component {
 
   hidePlayRequest() {
     this.setState({
-      requestingPlayer: null
+      requestFrom: null,
+      requestTo: null
+    })
+  }
+
+  requestToPlay(player) {
+    this.server.playWith(player)
+    this.setState({
+      requestTo: player.name
     })
   }
 }

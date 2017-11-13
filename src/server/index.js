@@ -7,7 +7,7 @@ const socketIO = require("socket.io")
 
 const pres = ["one", "wood", "two", "three", "sharp", "wicked",
   "black", "brown", "red", "twitchy", "grumpy"]
-const parts = ["Eye", "Beard", "Leg", "Hand", "Saber"]
+const parts = ["Eye", "Beard", "Leg", "Hand", "Saber", "Knee", "Elbow", "Nose", "Chin", "Thumb"]
 const names = ["Jimmy", "Bob", "Roland", "Whitman", "Delbert"]
 
 console.log(`${pres.length * parts.length * names.length} available names`)
@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("setName", name => {
-    player.name = name
+    player.name = name.trim()
     io.emit("players", waitingPlayers)
   })
 

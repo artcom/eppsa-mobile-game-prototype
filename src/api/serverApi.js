@@ -34,6 +34,10 @@ export default class ServerApi {
     this.socket.emit("itemScanned", item)
   }
 
+  ready(ready, partner) {
+    this.socket.emit("ready", { ready, partner })
+  }
+
   on(event, fn) {
     this.socket.on(event, fn)
   }

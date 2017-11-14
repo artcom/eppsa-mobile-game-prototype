@@ -136,6 +136,8 @@ export default class GameView extends React.Component {
       this.init(game)
     })
 
+    server.on("partnerIsReady", partnerIsReady => this.setState({ partnerIsReady }))
+
     this.state = devState || {
       qrMode: false,
       scannedItemId: null,
@@ -145,6 +147,7 @@ export default class GameView extends React.Component {
       finished: false,
       questItems: {},
       partner: null,
+      partnerIsReady: false
     }
 
     this.questIds = []
@@ -200,6 +203,8 @@ export default class GameView extends React.Component {
             selectedQuestId={ this.state.selectedQuestId }
             onSlotSelect={ (quest, item) => this.onSlotSelect(quest, item) } />
           { this.state.finished && <div>All quest items collected.</div> }
+          { this.state.partnerIsReady &&
+          <div>{ this.state.partner.name } collected all quest items </div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
           {this.server.id && <div> PlayerID: { this.server.id } </div>}
@@ -263,10 +268,12 @@ export default class GameView extends React.Component {
 
   onReadyConfirmed() {
     this.setState({ finished: true })
+    this.server.ready(true, this.state.partner)
   }
 
   onReadyDeclined() {
     this.setState({ finished: false })
+    this.server.ready(false, this.state.partner)
   }
 
   switchItems(collectedItemId) {

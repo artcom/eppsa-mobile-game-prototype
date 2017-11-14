@@ -122,7 +122,6 @@ export default class StartScreen extends React.Component {
 
     server.on("players", waitingPlayers => {
       waitingPlayers.splice(waitingPlayers.findIndex(player => this.isSamePlayer(player)), 1)
-
       this.setState({
         waitingPlayers
       })
@@ -130,7 +129,7 @@ export default class StartScreen extends React.Component {
 
     server.on("playRequest", player => {
       this.setState({
-        requestFrom: player.name
+        requestFrom: player
       })
       console.log(`${player.id} wants to play with you`)
     })
@@ -143,9 +142,10 @@ export default class StartScreen extends React.Component {
           (this.state.requestFrom || this.state.requestTo) &&
           <PlayRequest
             onClick= { () => this.hidePlayRequest() }>
-            <PlayRequestText>
-              {this.state.requestFrom && `${this.state.requestFrom} wants to play with you`}
-              {this.state.requestTo && `you requested to play with ${this.state.requestTo}`}
+            <PlayRequestText
+              onClick={ this.state.requestFrom ? () => this.acceptInvite() : () => {} }>
+              {this.state.requestFrom && `${this.state.requestFrom.name} wants to play with you`}
+              {this.state.requestTo && `you requested to play with ${this.state.requestTo.name}`}
             </PlayRequestText>
           </PlayRequest>
         }
@@ -197,10 +197,18 @@ export default class StartScreen extends React.Component {
     })
   }
 
+  acceptInvite() {
+    this.server.acceptInvite(this.state.requestFrom)
+    this.setState({
+      requestFrom: null,
+      requestTo: null
+    })
+  }
+
   requestToPlay(player) {
     this.server.playWith(player)
     this.setState({
-      requestTo: player.name
+      requestTo: player
     })
   }
 }

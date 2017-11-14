@@ -130,12 +130,10 @@ export default class GameView extends React.Component {
   constructor({ server }) {
     super()
 
-    server.on("init", data => {
-      this.init(data)
-    })
+    this.server = server
 
-    server.on("partnerJoined", data => {
-      this.setState({ partnerID: data.partnerID })
+    server.on("initGame", game => {
+      this.init(game)
     })
 
     this.state = devState || {
@@ -146,7 +144,7 @@ export default class GameView extends React.Component {
       selectedItemId: null,
       finished: false,
       questItems: {},
-      partnerID: null
+      partner: null,
     }
 
     this.questIds = []
@@ -204,8 +202,8 @@ export default class GameView extends React.Component {
           { this.state.finished && <div>All quest items collected.</div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
-          {this.props.socket.id && <div> PlayerID: { this.props.socket.id } </div>}
-          {this.state.partnerID && <div> PartnerID: { this.state.partnerID } </div>}
+          {this.server.id && <div> PlayerID: { this.server.id } </div>}
+          {this.state.partner && <div> PartnerID: { this.state.partner.id } </div>}
         </BottomContainer>
         { previewItemId
         &&
@@ -226,7 +224,7 @@ export default class GameView extends React.Component {
   handleQrResult(scannedItemId) {
     if (this.items[scannedItemId]) {
       this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
-      this.props.server.emit("item", { item: scannedItemId })
+      this.server.itemScanned(scannedItemId)
     }
   }
 
@@ -287,8 +285,8 @@ export default class GameView extends React.Component {
     return items
   }
 
-  init(data) {
-    this.playerId = data.id
+  init(game) {
+    this.playerId = game.findIndex(player => player.id === this.server.id)
 
     const playerContent = selectPlayerContent(this.playerId)
 
@@ -310,7 +308,7 @@ export default class GameView extends React.Component {
         ...obj,
         [questId]: null
       }), {}),
-      partnerID: data.partnerID
+      partner: game[1 - this.playerId]
     })
   }
 }

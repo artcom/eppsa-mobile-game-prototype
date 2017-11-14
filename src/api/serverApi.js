@@ -26,6 +26,10 @@ export default class ServerApi {
     this.socket.emit("playWith", player)
   }
 
+  acceptInvite(fromPlayer) {
+    this.socket.emit("acceptInvite", fromPlayer)
+  }
+
   itemScanned(item) {
     this.socket.emit("itemScanned", item)
   }

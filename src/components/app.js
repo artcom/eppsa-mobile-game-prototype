@@ -11,7 +11,7 @@ injectGlobal`
   }
   
   body {
-	margin: 0;
+	  margin: 0;
     padding: 0;
     font-family: sans-serif;
     user-select: none;
@@ -34,6 +34,8 @@ export default class App extends React.Component {
     this.state = {
       matched: false
     }
+
+    server.on("matched", matched => this.setState({ matched }))
   }
 
   render() {
@@ -41,8 +43,7 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        {matched && <GameView server={ this.server } />}
-        {!matched && <StartScreen server={ this.server } />}
+        { matched ? <GameView server={ this.server } /> : <StartScreen server={ this.server } /> }
       </Container>
     )
   }

@@ -18,8 +18,8 @@ const httpsOptions = {
 }
 
 const ioOptions = {
-  pingTimeout: 1000 * 30,
-  pingInterval: 1000 * 15
+  pingTimeout: 1000 * 15,
+  pingInterval: 1000 * 10
 }
 
 const app = express()
@@ -28,29 +28,33 @@ const io = socketIO(server, ioOptions)
 
 const playerNames = []
 const waitingPlayers = []
+const runningGames = []
 
 app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
 io.on("connection", (socket) => {
-  console.log("A user connected.")
+  console.log(`${socket.id} A user connected.`)
 
   const player = { id: socket.id, name: getName() }
+  const game = []
 
   waitingPlayers.push(player)
+  console.log(`waitingPlayers: ${JSON.stringify(waitingPlayers)}`)
 
   socket.emit("init", player)
 
-  io.emit("players", waitingPlayers)
+  sendWaitingPlayers()
 
   socket.on("disconnect", () => {
-    console.log("User disconnected")
+    console.log(`${socket.id} disconnected`)
 
-    waitingPlayers.splice(waitingPlayers.indexOf(player), 1)
+    removeFromWaitinglist(player)
     playerNames.splice(playerNames.indexOf(player.name), 1)
+    console.log(`waitingPlayers: ${JSON.stringify(waitingPlayers)}`)
 
-    io.emit("players", waitingPlayers)
+    sendWaitingPlayers()
   })
 
   socket.on("playSolo", () => console.log(`${socket.id} wants to play solo`))
@@ -62,9 +66,27 @@ io.on("connection", (socket) => {
     console.log(`${player.id} wants to play with ${targetPlayer.id}`)
   })
 
+  socket.on("acceptInvite", fromPlayer => {
+    console.log(`${player.id} accepts ${fromPlayer.id} Invite`)
+    game.push(player)
+
+    game.push(waitingPlayers[waitingPlayers.findIndex(
+      currentPlayer => isSamePlayer(currentPlayer, fromPlayer))])
+
+    removeFromWaitinglist(fromPlayer)
+    removeFromWaitinglist(player)
+
+    runningGames.push(game)
+
+    socket.emit("matched", true)
+    socket.to(fromPlayer.id).emit("matched", true)
+    socket.emit("initGame", game)
+    socket.to(fromPlayer.id).emit("initGame", game)
+  })
+  })
   socket.on("setName", name => {
     player.name = name.trim()
-    io.emit("players", waitingPlayers)
+    sendWaitingPlayers()
   })
 
   socket.on("itemScanned", item => {
@@ -77,6 +99,16 @@ server.listen(5000, () => {
   console.log("Example listening on port 5000!")
 })
 
+function removeFromWaitinglist(player) {
+  const index = waitingPlayers.findIndex(currentPlayer => isSamePlayer(currentPlayer, player))
+  if (index >= 0) {
+    waitingPlayers.splice(index, 1)
+  }
+}
+
+function sendWaitingPlayers() {
+  io.emit("players", waitingPlayers)
+}
 
 function getRandomEleent(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
@@ -90,4 +122,8 @@ function getName() {
     playerNames.push(name)
     return name
   }
+}
+
+function isSamePlayer(currentPlayer, searchedPlayer) {
+  return currentPlayer.id === searchedPlayer.id
 }

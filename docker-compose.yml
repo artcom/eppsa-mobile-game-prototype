@@ -1,0 +1,13 @@
+version: "3.2"
+
+services:
+  client:
+    environment:
+      - HTTPS=true
+      - SERVER_URI=http://server/
+    depends_on:
+      - server
+    links:
+      - server
+
+  server:

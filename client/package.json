@@ -60,8 +60,6 @@
     "watch": "node scripts/watch.js",
     "build": "node scripts/build.js",
     "start": "npm run build && http-server ./build/",
-    "wsServer": "node ./src/server/index.js",
-    "wsServerMon": "nodemon ./src/server/index.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

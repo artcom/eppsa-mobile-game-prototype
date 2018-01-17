@@ -13,8 +13,8 @@ const names = ["Jimmy", "Bob", "Roland", "Whitman", "Delbert"]
 console.log(`${pres.length * parts.length * names.length} available names`)
 
 const httpsOptions = {
-  key: fs.readFileSync(`${__dirname}/../../ssl/ssl.key`, "utf8"),
-  cert: fs.readFileSync(`${__dirname}/../../ssl/ssl.crt`, "utf8")
+  key: fs.readFileSync(`${__dirname}/../ssl/ssl.key`, "utf8"),
+  cert: fs.readFileSync(`${__dirname}/../ssl/ssl.crt`, "utf8")
 }
 
 const ioOptions = {

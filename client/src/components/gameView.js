@@ -226,10 +226,15 @@ export default class GameView extends React.Component {
     )
   }
 
-  handleQrResult(scannedItemId) {
-    if (this.items[scannedItemId]) {
-      this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
-      this.server.itemScanned(scannedItemId)
+  handleQrResult(scannedLink) {
+    if (scannedLink) {
+      const parser = document.createElement("a")
+      parser.href = scannedLink
+      const scannedItemId = parser.pathname.replace("/", "")
+      if (this.items[scannedItemId]) {
+        this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
+        this.server.itemScanned(scannedItemId)
+      }
     }
   }
 

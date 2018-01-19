@@ -26,10 +26,11 @@ const Container = styled.div`
 `
 
 export default class App extends React.Component {
-  constructor({ server }) {
+  constructor({ server, content }) {
     super()
 
     this.server = server
+    this.content = content
 
     this.state = {
       matched: false
@@ -43,7 +44,14 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        { matched ? <GameView server={ this.server } /> : <StartScreen server={ this.server } /> }
+        { matched ?
+          <GameView
+            server={ this.server }
+            content = { this.content } />
+          :
+          <StartScreen
+            server={ this.server }
+            content = { this.content } /> }
       </Container>
     )
   }

@@ -6,7 +6,6 @@ import ScanIconSvg from "../svg/icon-scan.svg"
 import ExitIconSvg from "../svg/icon-exit.svg"
 import SwitchIconSvg from "../svg/icon-switch.svg"
 
-import { selectPlayerContent, selectSharedContent } from "../selectContent"
 import Inventory from "./inventory"
 import ItemCard from "./itemCard"
 import Quest from "./quest"
@@ -127,16 +126,17 @@ const devState = null /* {
 }*/
 
 export default class GameView extends React.Component {
-  constructor({ server }) {
+  constructor({ ...props }) {
     super()
 
-    this.server = server
+    this.server = props.server
+    this.content = props.content
 
-    server.on("initGame", game => {
+    this.server.on("initGame", game => {
       this.init(game)
     })
 
-    server.on("partnerIsReady", partnerIsReady => this.setState({ partnerIsReady }))
+    this.server.on("partnerIsReady", partnerIsReady => this.setState({ partnerIsReady }))
 
     this.state = devState || {
       qrMode: false,
@@ -198,6 +198,7 @@ export default class GameView extends React.Component {
         <BottomContainer>
           <Inventory
             quests={ this.quests }
+            content = { this.content }
             inventory={ this.state.questItems }
             selectedItemId={ this.state.selectedItemId }
             selectedQuestId={ this.state.selectedQuestId }
@@ -300,14 +301,14 @@ export default class GameView extends React.Component {
   init(game) {
     this.playerId = game.findIndex(player => player.id === this.server.id)
 
-    const playerContent = selectPlayerContent(this.playerId)
+    const playerContent = this.content.selectPlayerContent(this.playerId)
 
     this.player = playerContent.player
     this.quests = playerContent.playerQuests
     this.questIds = playerContent.playerQuestIds
     this.questItemIds = playerContent.playerQuestItemIds
 
-    this.items = selectSharedContent().items
+    this.items = this.content.selectSharedContent().items
 
     this.setState({
       qrMode: false,

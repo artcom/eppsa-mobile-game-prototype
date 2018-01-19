@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components"
 
 import ItemSlot from "./itemSlot"
-import { selectSharedContent } from "../selectContent"
 
 export const Container = styled.div`
   display: flex;
@@ -21,8 +20,8 @@ export const Quest = styled.div`
   opacity: 0.5;
 `
 
-export default ({ inventory, onSlotSelect, quests, selectedQuestId, selectedItemId }) => {
-  const { items } = selectSharedContent()
+export default ({ content, inventory, onSlotSelect, quests, selectedQuestId, selectedItemId }) => {
+  const { items } = content.selectSharedContent()
 
   const entries = Object.entries(inventory)
 

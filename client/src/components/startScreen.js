@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import React from "react"
-import { selectSharedContent } from "../selectContent"
 
 const Container = styled.div`
   height: 100%;
@@ -100,34 +99,35 @@ const PlayRequestText = styled.div`
 `
 
 export default class StartScreen extends React.Component {
-  constructor({ server }) {
+  constructor({ ...props }) {
     super()
 
-    this.server = server
+    this.server = props.server
+    this.content = props.content
 
     this.state = {
       player: {},
-      game: selectSharedContent(),
+      game: this.content.selectSharedContent(),
       waitingPlayers: [],
       requestFrom: null,
       requestTo: null
     }
 
-    server.on("init", player => {
+    this.server.on("init", player => {
       this.setState({
         player,
         givenName: player.name
       })
     })
 
-    server.on("players", waitingPlayers => {
+    this.server.on("players", waitingPlayers => {
       waitingPlayers.splice(waitingPlayers.findIndex(player => this.isSamePlayer(player)), 1)
       this.setState({
         waitingPlayers
       })
     })
 
-    server.on("playRequest", player => {
+    this.server.on("playRequest", player => {
       this.setState({
         requestFrom: player
       })

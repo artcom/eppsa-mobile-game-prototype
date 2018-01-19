@@ -9,7 +9,7 @@ class Content {
   }
 
   async loadCmsData() {
-    const cmsData = await axios.get("https://localhost/content/master/content")
+    const cmsData = await axios.get(`https://${window.location.hostname}/content/master/content`)
     this.data.game = transform(cmsData.data)
   }
 

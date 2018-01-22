@@ -3,7 +3,6 @@ import styled from "styled-components"
 
 import OkIconSvg from "../svg/icon-ok.svg"
 import CancelIconSvg from "../svg/icon-cancel.svg"
-import PlaceholderSvg from "../svg/icon-maintenance.svg"
 
 const Card = styled.div`
   width: 80%;
@@ -13,6 +12,8 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;  
   justify-content: space-around;
+  
+  overflow: scroll;
 
   padding: 10px;
   
@@ -25,13 +26,6 @@ const Card = styled.div`
 
 const Name = styled.div`
   font-size: 10vmin;
-`
-
-const Placeholder = styled(PlaceholderSvg)`
-  width: 60vw;
-  height: 60vw;
-  
-  opacity: 0.5;
 `
 
 const Description = styled.div`
@@ -66,10 +60,17 @@ const CancelButton = styled(CancelIconSvg)`
   height: 20vw;
 `
 
+const Icon = styled.img`
+  width: 60vw;
+  height: 60vw;
+`
+
 export default ({ item, onTake, onDiscard }) =>
   <Card>
     <Name>{ item.name }</Name>
-    <Placeholder />
+    <Icon src={
+      `https://${window.location.hostname}/assets/${item.iconSrc}`
+    } />
     <Description>{ item.description }</Description>
     <ButtonContainer>
       { onTake && <OkButton onClick={ onTake } /> }

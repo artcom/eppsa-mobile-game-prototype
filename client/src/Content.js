@@ -40,6 +40,7 @@ class Content {
     const items = mapValues(this.data.game.items, (item, itemId) => (
       {
         name: item.name,
+        iconSrc: item.icon.src,
         description: item.description,
         questId: this.getQuestId(itemId)
       }

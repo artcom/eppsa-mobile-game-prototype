@@ -5,8 +5,10 @@ RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 # install and cache app dependencies
-ADD package.json /usr/src/app/package.json
-ADD package-lock.json /usr/src/app/package-lock.json
+COPY ssl /usr/src/app/ssl
+COPY src /usr/src/app/src
+COPY package.json /usr/src/app/package.json
+COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm install
 
 # start app

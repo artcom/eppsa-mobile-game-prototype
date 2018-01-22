@@ -6,17 +6,11 @@ services:
       context: ./client
       dockerfile: Dockerfile.production
     ports:
-      - "8090:8080"
-    volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+      - "8086:8080"
 
   server:
     build:
       context: ./server
       dockerfile: Dockerfile.production
     ports:
-      - "8091:5000"
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
+      - "8088:5000"

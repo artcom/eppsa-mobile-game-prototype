@@ -22,5 +22,17 @@ HTTPS=true npm run watch
 Server:
 
 ```
-npm run server
+npm start
 ```
+
+## Docker
+
+Requirements: Docker >=v17.12
+
+### Development
+* `docker-compose -f docker-compose.yml -f docker-compose.development.yml up`
+* Open [https://localhost:3000/webpack-dev-server/?wsServer=https://localhost:5000](https://localhost:3000/webpack-dev-server/?wsServer=https://localhost:5000)
+
+### Production
+* `docker-compose -f docker-compose.yml -f docker-compose.production.yml up`
+* https://[host]:8086/?wsServer=https://[host]:8088

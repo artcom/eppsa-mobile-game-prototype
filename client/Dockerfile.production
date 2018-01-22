@@ -12,6 +12,7 @@ RUN npm install
 COPY scripts /usr/src/app/scripts
 COPY config /usr/src/app/config
 COPY src /usr/src/app/src
+COPY ssl /usr/src/app/ssl
 COPY public /usr/src/app/public
 
 RUN npm run build

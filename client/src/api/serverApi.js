@@ -2,8 +2,8 @@
 import client from "socket.io-client"
 
 export default class ServerApi {
-  constructor(hostname, dispatch) {
-    this.socket = client(`${hostname}:5000`, { secure: true })
+  constructor(server, dispatch) {
+    this.socket = client(`${server}`, { secure: true })
   }
 
   get id() {

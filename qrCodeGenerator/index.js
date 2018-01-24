@@ -26,6 +26,8 @@ https.get({
 
   res.on("end", () => {
     const items = JSON.parse(rawData)
+    delete items.index
+
     Object.keys(items).forEach(key => {
       QRCode.toFile(
         `qrCodes/${key}.png`,

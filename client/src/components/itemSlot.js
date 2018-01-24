@@ -7,6 +7,8 @@ import Wave from "./effects/wave"
 const Container = styled(Circle)`
   display: flex;
   
+  position: relative;
+  
   justify-content: center;
   align-items: center;
   
@@ -23,7 +25,15 @@ const Container = styled(Circle)`
 `
 
 const Content = styled.div`
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  
   position: absolute;
+  
+  justify-content: center;
+  align-items: center;
 `
 
 export default function ItemSlot(props) {

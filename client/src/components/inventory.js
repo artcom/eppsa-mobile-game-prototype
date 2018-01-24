@@ -16,11 +16,13 @@ export const Item = styled.div`
   font-weight: bold;
 `
 
-
-const Icon = styled.img`
-  object-fit: scale-down;
-  width: 25vw;
-  height: 25vw;
+const Icon = styled.div`
+  background-image: url(${props => props.image});
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height:100%;
+  border-radius: 50%;
 `
 
 export const Quest = styled.div`
@@ -44,9 +46,9 @@ export default ({ content, inventory, onSlotSelect, quests, selectedQuestId, sel
             isQuestSelected={ selectedQuestId !== null && selectedQuestId === questId }
             onClick={ () => onSlotSelect(questId, itemId) }>
             {
-              itemId && <Icon src={
-                `https://${window.location.hostname}/assets/${items[itemId].iconSrc}`
-              } />
+              itemId &&
+              <Icon
+                image={ `https://${window.location.hostname}/assets/${items[itemId].iconSrc}` } />
               ||
               <div>
                 <Quest>{ quests[questId].name }</Quest>

@@ -13,7 +13,7 @@ fs.access("qrCodes", err => {
 https.get({
   "hostname": "localhost",
   "path": "/content/master/content/items",
-  "rejectUnauthorized": true
+  "rejectUnauthorized": false
 }, res => {
 
   res.setEncoding("utf8")

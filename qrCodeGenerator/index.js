@@ -27,13 +27,15 @@ https.get({
   res.on("end", () => {
     const items = JSON.parse(rawData)
     Object.keys(items).forEach(key => {
-      console.log(key)
-      QRCode.toFile(`qrCodes/${key}.png`, `https://10.1.34.110:3000/${key}`,{
-        "width": 250
-      }, err => {
-        if (err) throw  err
-        console.log("done")
-      })
+      QRCode.toFile(
+        `qrCodes/${key}.png`,
+        `${process.env.GAME_URL}/${key}`,
+        { "width": 250 },
+        error => {
+          if (error) throw  error
+          console.log(`${process.env.GAME_URL}/${key}`)
+        }
+      )
     })
   })
 })

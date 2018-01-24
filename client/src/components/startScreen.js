@@ -99,8 +99,8 @@ const PlayRequestText = styled.div`
 `
 
 export default class StartScreen extends React.Component {
-  constructor({ ...props }) {
-    super()
+  constructor(props) {
+    super(props)
 
     this.server = props.server
     this.content = props.content

@@ -107,7 +107,7 @@ export default class StartScreen extends React.Component {
 
     this.state = {
       player: {},
-      game: this.content.selectSharedContent(),
+      game: this.content,
       waitingPlayers: [],
       requestFrom: null,
       requestTo: null

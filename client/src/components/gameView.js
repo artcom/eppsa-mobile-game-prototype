@@ -111,44 +111,16 @@ const BackButton = styled(ExitIconSvg)`
   z-index: 1;
 `
 
-const devState = null /* {
-  qrMode: false,
-  scannedItemId: "oak",
-  previewItemId: "oak",
-  selectedItemId: null,
-  selectedQuestId: null,
-  finished: false,
-  questItems: {
-    material: null,
-    connectors: "steel",
-    protection: "hemp"
-  }
-}*/
-
 export default class GameView extends React.Component {
-  constructor({ ...props }) {
-    super()
+  constructor(props) {
+    super(props)
 
-    this.server = props.server
+    this.props = props
+
     this.content = props.content
+    this.server = props.server
 
-    this.server.on("initGame", game => {
-      this.init(game)
-    })
-
-    this.server.on("partnerIsReady", partnerIsReady => this.setState({ partnerIsReady }))
-
-    this.state = devState || {
-      qrMode: false,
-      scannedItemId: null,
-      previewItemId: null,
-      selectedQuestId: null,
-      selectedItemId: null,
-      finished: false,
-      questItems: {},
-      partner: null,
-      partnerIsReady: false
-    }
+    this.state = this.init()
 
     this.questIds = []
 
@@ -204,12 +176,12 @@ export default class GameView extends React.Component {
             selectedQuestId={ this.state.selectedQuestId }
             onSlotSelect={ (quest, item) => this.onSlotSelect(quest, item) } />
           { this.state.finished && <div>All quest items collected.</div> }
-          { this.state.partnerIsReady &&
+          { this.state.partnerFinishedQuests &&
           <div>{ this.state.partner.name } collected all quest items </div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
-          {this.server.id && <div> PlayerID: { this.server.id } </div>}
-          {this.state.partner && <div> PartnerID: { this.state.partner.id } </div>}
+          { this.props.playerId && <div> PlayerID: { this.props.playerId } </div> }
+          { this.state.partner && <div> PartnerID: { this.state.partner.id } </div> }
         </BottomContainer>
         { previewItemId
         &&
@@ -236,6 +208,34 @@ export default class GameView extends React.Component {
         this.setState({ scannedItemId, previewItemId: scannedItemId, qrMode: false })
         this.server.itemScanned(scannedItemId)
       }
+    }
+  }
+
+  init() {
+    this.playerId = this.props.game.findIndex(player => player.id === this.props.playerId)
+
+    const playerContent = this.content.selectPlayerContent(this.playerId)
+
+    this.player = playerContent.player
+    this.quests = playerContent.playerQuests
+    this.questIds = playerContent.playerQuestIds
+    this.questItemIds = playerContent.playerQuestItemIds
+
+    this.items = this.content.selectSharedContent().items
+
+    return {
+      questItems: this.questIds.reduce((obj, questId) => ({
+        ...obj,
+        [questId]: null
+      }), {}),
+      partner: this.props.game[1 - this.playerId],
+      qrMode: false,
+      scannedItemId: null,
+      previewItemId: null,
+      selectedQuestId: null,
+      selectedItemId: null,
+      finished: false,
+      partnerFinishedQuests: this.props.partnerFinishedQuests
     }
   }
 
@@ -296,32 +296,5 @@ export default class GameView extends React.Component {
       .filter(entry => entry !== null)
 
     return items
-  }
-
-  init(game) {
-    this.playerId = game.findIndex(player => player.id === this.server.id)
-
-    const playerContent = this.content.selectPlayerContent(this.playerId)
-
-    this.player = playerContent.player
-    this.quests = playerContent.playerQuests
-    this.questIds = playerContent.playerQuestIds
-    this.questItemIds = playerContent.playerQuestItemIds
-
-    this.items = this.content.selectSharedContent().items
-
-    this.setState({
-      qrMode: false,
-      scannedItemId: null,
-      previewItemId: null,
-      selectedQuestId: null,
-      selectedItemId: null,
-      finished: false,
-      questItems: this.questIds.reduce((obj, questId) => ({
-        ...obj,
-        [questId]: null
-      }), {}),
-      partner: game[1 - this.playerId]
-    })
   }
 }

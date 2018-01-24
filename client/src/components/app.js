@@ -32,26 +32,35 @@ export default class App extends React.Component {
     this.server = server
     this.content = content
 
-    this.state = {
-      matched: false
-    }
+    this.server.on("startGame", game => {
+      this.setState({ game })
+    })
 
-    server.on("matched", matched => this.setState({ matched }))
+    this.server.on("partnerFinishedQuests", partnerFinishedQuests => {
+      this.setState({ partnerFinishedQuests })
+    })
+
+    this.state = {
+      game: null,
+      partnerFinishedQuests: false
+    }
   }
 
   render() {
-    const matched = this.state.matched
-
     return (
       <Container>
-        { matched ?
+        { this.state.game ?
           <GameView
-            server={ this.server }
-            content = { this.content } />
+            content = { this.content }
+            game = { this.state.game }
+            partnerFinishedQuests={ this.state.partnerFinishedQuests }
+            playerId = { this.server.id }
+            handleQrResult = { (scannedLink) => this.handleQrResult(scannedLink) }
+            server = { this.server } />
           :
           <StartScreen
             server={ this.server }
-            content = { this.content } /> }
+            content = { this.content.selectSharedContent() } /> }
       </Container>
     )
   }

@@ -78,10 +78,8 @@ io.on("connection", (socket) => {
 
     runningGames.push(game)
 
-    socket.emit("matched", true)
-    socket.to(fromPlayer.id).emit("matched", true)
-    socket.emit("initGame", game)
-    socket.to(fromPlayer.id).emit("initGame", game)
+    socket.emit("startGame", game)
+    socket.to(fromPlayer.id).emit("startGame", game)
   })
 
   socket.on("ready", ({ ready, partner }) => {

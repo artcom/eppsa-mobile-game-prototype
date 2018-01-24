@@ -83,7 +83,8 @@ io.on("connection", (socket) => {
   })
 
   socket.on("ready", ({ ready, partner }) => {
-    socket.to(partner.id).emit("partnerIsReady", ready)
+    socket.to(partner.id).emit("partnerFinishedQuests", ready)
+    console.log(`${socket.id} is ready`)
   })
 
   socket.on("setName", name => {

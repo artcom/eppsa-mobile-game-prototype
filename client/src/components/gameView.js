@@ -122,8 +122,6 @@ export default class GameView extends React.Component {
 
     this.state = this.init()
 
-    this.questIds = []
-
     this.onQrButtonClicked = this.onQrButtonClicked.bind(this)
     this.onItemTake = this.onItemTake.bind(this)
     this.onItemDiscard = this.onItemDiscard.bind(this)
@@ -176,7 +174,7 @@ export default class GameView extends React.Component {
             selectedQuestId={ this.state.selectedQuestId }
             onSlotSelect={ (quest, item) => this.onSlotSelect(quest, item) } />
           { this.state.finished && <div>All quest items collected.</div> }
-          { this.state.partnerFinishedQuests &&
+          { this.props.partnerFinishedQuests &&
           <div>{ this.state.partner.name } collected all quest items </div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }

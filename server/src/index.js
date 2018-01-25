@@ -59,8 +59,6 @@ io.on("connection", (socket) => {
 
   socket.on("playSolo", () => console.log(`${socket.id} wants to play solo`))
 
-  socket.on("playRandom", () => console.log(`${socket.id} wants to play with random player`))
-
   socket.on("playWith", targetPlayer => {
     socket.to(targetPlayer.id).emit("playRequest", player)
     console.log(`${player.id} wants to play with ${targetPlayer.id}`)

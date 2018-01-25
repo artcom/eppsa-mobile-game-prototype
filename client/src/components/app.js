@@ -2,7 +2,7 @@ import styled, { injectGlobal } from "styled-components"
 
 import React from "react"
 import GameView from "./gameView"
-import StartScreen from "./startScreen"
+import Lobby from "./lobby"
 
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`
@@ -11,10 +11,14 @@ injectGlobal`
   }
   
   body {
-	  margin: 0;
+    margin: 0;
     padding: 0;
     font-family: sans-serif;
     user-select: none;
+  }
+  
+  input {
+    border: none;
   }
 `
 
@@ -58,7 +62,7 @@ export default class App extends React.Component {
             handleQrResult = { (scannedLink) => this.handleQrResult(scannedLink) }
             server = { this.server } />
           :
-          <StartScreen
+          <Lobby
             server={ this.server }
             content = { this.content.selectSharedContent() } /> }
       </Container>

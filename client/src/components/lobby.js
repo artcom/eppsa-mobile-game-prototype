@@ -2,75 +2,57 @@ import styled from "styled-components"
 import React from "react"
 
 const Container = styled.div`
-  height: 100%;
-  width: 100%;
-  
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
+  padding: 10vw;
   
-  position: absolute;
+  font-family: 'Tangerine', serif;
+  font-size: 8vw;
 `
 
-const Head = styled.div`
-  width: 75%;
-  height: 30%;
-  
-  overflow-y: scroll;
-  
-  text-align: justify;
-  
-  border: solid 2px red;
-`
-
-const Name = styled.input`
-  
-  &::placeholder{
+const EnterName = styled.input`
+  &::placeholder {
     color: grey;
+    font-family: 'Tangerine', serif;
   }
   
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 16px;
+  &:focus {
+    outline: none;
+  }
   
-  border-top: solid 2px;
-  border-bottom: solid 2px;
-  border-left: hidden;
-  border-right: hidden;
+  display: flex;
+  
+  text-align: center;
+  
+  font-family: 'Tangerine', serif;
+  font-weight: bold;  
+  font-size: 8vw;
+  
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-bottom: 5vw;
+`
+
+const Description = styled.div`
+  margin-bottom: 10vw;
 `
 
 const PlayWith = styled.div`
-  width: 75%;
-  height: 50%;
-  
-  overflow-y: scroll;
-  
-  border: solid 2px red;
-  border-top: none;
+  margin-bottom: 5vw;
 `
 
 const Player = styled.div`
-  height: 6vh;
+  text-align: center;
 
-  border: solid 2px orange;
-  border-top: none;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-bottom: 5vw;
   
-  &:first-child{
-    border-top: solid 2px orange;
-  }
-`
-
-const PlayRnd = styled.div`
-  width: 75%;
-  height: 12.5%;
-  
-  border: solid 2px red;
-  border-top: none;
+  font-weight: bold;
+  font-size: 8vw;
 `
 
 const PlayRequest = styled.div`
-   
   position: absolute;
   top: 0px;
   
@@ -98,7 +80,7 @@ const PlayRequestText = styled.div`
   
 `
 
-export default class StartScreen extends React.Component {
+export default class Lobby extends React.Component {
   constructor(props) {
     super(props)
 
@@ -149,31 +131,25 @@ export default class StartScreen extends React.Component {
             </PlayRequestText>
           </PlayRequest>
         }
-        <Head>
-            Dear,
-          <Name
-            type="text"
-            placeholder= { this.state.player.name }
-            onChange={ event => { this.setName(event) } } /><br />
-          <br />
+        Dear
+        <EnterName
+          type="text"
+          placeholder= { this.state.player.name }
+          onChange={ event => { this.setName(event) } } />
+        <Description>
           {this.state.game.description}
-        </Head>
-        <PlayWith>Play With
-          {
-            this.state.waitingPlayers.map(
-              player =>
-                <Player
-                  onClick={ () => this.requestToPlay(player) }
-                  key={ player.id }>
-                  {player.name}
-                </Player>
-            )
-          }
-        </PlayWith>
-        <PlayRnd
-          onClick={ () => this.server.playRandom() }>
-          Play With Random Player
-        </PlayRnd>
+        </Description>
+        <PlayWith>Play with</PlayWith>
+        {
+          this.state.waitingPlayers.map(
+            player =>
+              <Player
+                onClick={ () => this.requestToPlay(player) }
+                key={ player.id }>
+                {player.name}
+              </Player>
+          )
+        }
       </Container>
     )
   }

@@ -5,8 +5,8 @@ const fs = require("fs")
 const https = require("https")
 const socketIO = require("socket.io")
 
-const pres = ["one", "wood", "two", "long", "short", "sharp", "wicked",
-  "black", "brown", "red", "twitchy", "grumpy", "no", "big", "small", "tiny", "green"]
+const pres = ["One", "Wood", "Two", "Long", "Short", "Sharp", "Wicked",
+  "Black", "Brown", "Red", "Twitchy", "Grumpy", "No", "Big", "Small", "Tiny", "Green"]
 const parts = ["Eye", "Beard", "Leg", "Hand", "Saber", "Knee", "Elbow", "Nose", "Chin", "Thumb"]
 const names = ["Jimmy", "Bob", "Roland", "Whitman", "Delbert"]
 

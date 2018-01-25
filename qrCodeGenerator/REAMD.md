@@ -2,4 +2,4 @@
 
 ## Usage
 
-`GAME_URL=https://[url] npm start`
+`GAME_URL=https://[url] WS_SERVER=[url] npm start`

@@ -178,8 +178,6 @@ export default class GameView extends React.Component {
           <div>{ this.state.partner.name } collected all quest items </div> }
           { ready && !this.state.finished &&
           <ReadyDialog onOk={ this.onReadyConfirmed } onCancel={ this.onReadyDeclined } /> }
-          { this.props.playerId && <div> PlayerID: { this.props.playerId } </div> }
-          { this.state.partner && <div> PartnerID: { this.state.partner.id } </div> }
         </BottomContainer>
         { previewItemId
         &&

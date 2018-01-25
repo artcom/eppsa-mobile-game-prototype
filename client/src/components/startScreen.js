@@ -181,8 +181,6 @@ export default class StartScreen extends React.Component {
   setName(event) {
     const name = event.target.value.trim().substr(0, 25) || this.state.givenName
 
-    // eslint-disable-next-line
-    event.target.value = name
     this.server.setName(name)
   }
 

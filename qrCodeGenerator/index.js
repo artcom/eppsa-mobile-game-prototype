@@ -31,11 +31,11 @@ https.get({
     Object.keys(items).forEach(key => {
       QRCode.toFile(
         `qrCodes/${key}.png`,
-        `${process.env.GAME_URL}/${key}`,
+        `${process.env.GAME_URL}/${key}?wsServer=${process.env.GAME_URL}`,
         { "width": 250 },
         error => {
           if (error) throw  error
-          console.log(`${process.env.GAME_URL}/${key}`)
+          console.log(`${process.env.GAME_URL}/${key}?wsServer=${process.env.WS_SERVER}`)
         }
       )
     })

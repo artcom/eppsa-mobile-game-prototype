@@ -62,7 +62,7 @@ const CancelButton = styled(CancelIconSvg)`
 
 const Icon = styled.img`
   max-width: 60vw;
-  max-height: 60vw;
+  max-height: 40vw;
 `
 
 export default ({ item, onTake, onDiscard }) =>

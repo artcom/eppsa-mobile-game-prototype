@@ -12,10 +12,6 @@ export const Container = styled.div`
   height: 100%;
 `
 
-export const Item = styled.div`
-  font-weight: bold;
-`
-
 const Icon = styled.div`
   background-image: url(${props => props.image});
   background-position: center;
@@ -29,7 +25,7 @@ export const Quest = styled.div`
   text-overflow: ellipsis;
   opacity: 0.5;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: scroll;
 `
 
 export default ({ content, inventory, onSlotSelect, quests, selectedQuestId, selectedItemId }) => {

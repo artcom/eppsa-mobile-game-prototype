@@ -153,7 +153,10 @@ export default class Lobby extends React.Component {
                   </IncomingRequest>
                 }
                 {
-                  this.state.requestTo === player && <OutgoingRequest>!</OutgoingRequest>
+                  this.state.requestTo && this.state.requestTo.id === player.id &&
+                  <OutgoingRequest>
+                    !
+                  </OutgoingRequest>
                 }
               </PlayerListItem>
           )

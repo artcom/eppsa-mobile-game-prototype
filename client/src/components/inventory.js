@@ -26,7 +26,10 @@ const Icon = styled.div`
 `
 
 export const Quest = styled.div`
+  text-overflow: ellipsis;
   opacity: 0.5;
+  white-space: nowrap;
+  overflow: hidden;
 `
 
 export default ({ content, inventory, onSlotSelect, quests, selectedQuestId, selectedItemId }) => {
@@ -50,9 +53,7 @@ export default ({ content, inventory, onSlotSelect, quests, selectedQuestId, sel
               <Icon
                 image={ `https://${window.location.hostname}/assets/${items[itemId].iconSrc}` } />
               ||
-              <div>
-                <Quest>{ quests[questId].name }</Quest>
-              </div>
+              <Quest>{ quests[questId].name }</Quest>
             }
           </ItemSlot>
         )

@@ -64,6 +64,11 @@ io.on("connection", (socket) => {
     console.log(`${player.id} wants to play with ${targetPlayer.id}`)
   })
 
+  socket.on("cancelPlayWith", targetPlayer => {
+    socket.to(targetPlayer.id).emit("cancelPlayRequest", player)
+    console.log(`${player.id} canceled request to play with ${targetPlayer.id}`)
+  })
+
   socket.on("acceptInvite", fromPlayer => {
     console.log(`${player.id} accepts ${fromPlayer.id} Invite`)
     game.push(player)
@@ -75,6 +80,8 @@ io.on("connection", (socket) => {
     removeFromWaitinglist(player)
 
     runningGames.push(game)
+
+    sendWaitingPlayers()
 
     socket.emit("startGame", game)
     socket.to(fromPlayer.id).emit("startGame", game)

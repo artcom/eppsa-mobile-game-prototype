@@ -41,44 +41,43 @@ const PlayWith = styled.div`
   margin-bottom: 5vw;
 `
 
-const Player = styled.div`
-  text-align: center;
-
+const PlayerListItem = styled.div`
+  display: flex;
   margin-left: 10vw;
   margin-right: 10vw;
   margin-bottom: 5vw;
-  
+
+`
+
+const Player = styled.div`
+  text-align: center;
   font-weight: bold;
   font-size: 8vw;
 `
 
-const PlayRequest = styled.div`
-  position: absolute;
-  top: 0px;
-  
-  width: 100%;
-  height: 100%;
-  
+const IncomingRequest = styled.div`
+  color: forestgreen;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 10vw;
+  height: 10vw;
   text-align: center;
-  vertical-align: middle;
+  font-size: 10vw;
   
-  background-color: rgba(0,0,0,0.56);
+  margin-left: 5vw;
+`
+const OutgoingRequest = styled.div`
+  color: gray;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 10vw;
+  height: 10vw;
+  text-align: center;
+  font-size: 10vw;
   
-  display: flex;
-  flex-flow: column nowrap;
-  
-  align-items: center;
-  justify-content: center;
-  
+  margin-left: 5vw;
 `
 
-const PlayRequestText = styled.div`
-  width: 75%;
-  height: 15%;
-  
-  background-color: rgb(29,238,165);
-  
-`
 
 export default class Lobby extends React.Component {
   constructor(props) {
@@ -91,7 +90,7 @@ export default class Lobby extends React.Component {
       player: {},
       game: this.content,
       waitingPlayers: [],
-      requestFrom: null,
+      requestFrom: [],
       requestTo: null
     }
 
@@ -110,27 +109,27 @@ export default class Lobby extends React.Component {
     })
 
     this.server.on("playRequest", player => {
+      const requestFrom = Array.from(this.state.requestFrom)
+      requestFrom.push(player)
       this.setState({
-        requestFrom: player
+        requestFrom
       })
-      console.log(`${player.id} wants to play with you`)
+      console.log(`${player.id} wants to play with you: ${this.state.requestFrom}`)
+    })
+
+    this.server.on("cancelPlayRequest", (player) => {
+      const requestFrom = Array.from(this.state.requestFrom).filter(
+        (request) => request.id !== player.id
+      )
+      this.setState({
+        requestFrom
+      })
     })
   }
 
   render() {
     return (
       <Container>
-        {
-          (this.state.requestFrom || this.state.requestTo) &&
-          <PlayRequest
-            onClick= { () => this.hidePlayRequest() }>
-            <PlayRequestText
-              onClick={ this.state.requestFrom ? () => this.acceptInvite() : () => {} }>
-              {this.state.requestFrom && `${this.state.requestFrom.name} wants to play with you`}
-              {this.state.requestTo && `you requested to play with ${this.state.requestTo.name}`}
-            </PlayRequestText>
-          </PlayRequest>
-        }
         Dear
         <EnterName
           type="text"
@@ -143,11 +142,20 @@ export default class Lobby extends React.Component {
         {
           this.state.waitingPlayers.map(
             player =>
-              <Player
-                onClick={ () => this.requestToPlay(player) }
-                key={ player.id }>
-                {player.name}
-              </Player>
+              <PlayerListItem key={ player.id } >
+                <Player onClick={ () => this.requestToPlay(player) }>
+                  {player.name}
+                </Player>
+                {
+                  this.state.requestFrom.filter(from => from.id === player.id).length > 0 &&
+                  <IncomingRequest onClick={ () => this.acceptInvite(player) }>
+                  ?
+                  </IncomingRequest>
+                }
+                {
+                  this.state.requestTo === player && <OutgoingRequest>!</OutgoingRequest>
+                }
+              </PlayerListItem>
           )
         }
       </Container>
@@ -164,22 +172,14 @@ export default class Lobby extends React.Component {
     return otherPlayer.id === this.state.player.id
   }
 
-  hidePlayRequest() {
-    this.setState({
-      requestFrom: null,
-      requestTo: null
-    })
-  }
-
-  acceptInvite() {
-    this.server.acceptInvite(this.state.requestFrom)
-    this.setState({
-      requestFrom: null,
-      requestTo: null
-    })
+  acceptInvite(player) {
+    this.server.acceptInvite(player)
   }
 
   requestToPlay(player) {
+    if (this.state.requestTo) {
+      this.server.cancelRequestToPlay(this.state.requestTo)
+    }
     this.server.playWith(player)
     this.setState({
       requestTo: player

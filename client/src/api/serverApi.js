@@ -2,7 +2,7 @@
 import client from "socket.io-client"
 
 export default class ServerApi {
-  constructor(server, dispatch) {
+  constructor(server) {
     this.socket = client(`${server}`, { secure: true })
   }
 
@@ -18,12 +18,12 @@ export default class ServerApi {
     this.socket.emit("playSolo")
   }
 
-  playRandom() {
-    this.socket.emit("playRandom")
-  }
-
   playWith(player) {
     this.socket.emit("playWith", player)
+  }
+
+  cancelRequestToPlay(player) {
+    this.socket.emit("cancelPlayWith", player)
   }
 
   acceptInvite(fromPlayer) {
@@ -32,10 +32,6 @@ export default class ServerApi {
 
   itemScanned(item) {
     this.socket.emit("itemScanned", item)
-  }
-
-  ready(ready, partner) {
-    this.socket.emit("ready", { ready, partner })
   }
 
   on(event, fn) {

@@ -3,20 +3,20 @@ version: "3.2"
 services:
   client:
     build:
-      context: ./client
+      context: ./eppsa-mobile-game-client
       dockerfile: Dockerfile.development
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./eppsa-mobile-game-client:/app
+      - /app/node_modules
 
   server:
     build:
-      context: ./server
+      context: ./eppsa-mobile-game-server
       dockerfile: Dockerfile.development
     ports:
       - "5000:5000"
     volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./eppsa-mobile-game-server:/app
+      - /app/node_modules

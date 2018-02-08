@@ -3,14 +3,14 @@ version: "3.2"
 services:
   client:
     build:
-      context: ./client
+      context: ./eppsa-mobile-game-client
       dockerfile: Dockerfile.production
     ports:
       - "8086:8080"
 
   server:
     build:
-      context: ./server
+      context: ./eppsa-mobile-game-server
       dockerfile: Dockerfile.production
     ports:
       - "8088:5000"

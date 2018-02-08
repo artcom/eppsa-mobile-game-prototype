@@ -1,0 +1,6 @@
+[submodule "eppsa-mobile-game-server"]
+	path = eppsa-mobile-game-server
+	url = git@github.com:j-era/eppsa-mobile-game-server.git
+[submodule "eppsa-mobile-game-client"]
+	path = eppsa-mobile-game-client
+	url = git@github.com:j-era/eppsa-mobile-game-client.git
